@@ -1,0 +1,1687 @@
+/* Nexus Gestion — compléments propres à la comptabilité, posés PAR-DESSUS nexus-rh.css (copie à
+   l'identique de la feuille de style de Nexus RH). Uniquement des variables de Nexus RH : même
+   palette bleu marine + or, mêmes rayons, même typographie. Aucune couleur nouvelle. */
+
+.brand-suffix {
+  color: var(--landing-gold-500);
+  font-weight: 700;
+}
+
+/* Assistant d'installation : même carte que la connexion, plus large */
+.login-card.onboarding-card {
+  max-width: 640px;
+}
+.onboarding-steps {
+  display: flex;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.onboarding-steps span {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--color-border);
+}
+.onboarding-steps span.done {
+  background: var(--landing-gold-500);
+}
+/* Groupe de boutons radio : fieldset sans cadre, légende présentée comme une étiquette de champ. */
+.choice-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.choice-group > legend {
+  padding: 0;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.choice-cards {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+.choice-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 11px 13px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  background: var(--color-surface);
+}
+.choice-card input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+.choice-card:has(input:checked) {
+  border-color: var(--landing-gold-500);
+  background: var(--color-gold-soft);
+}
+.notice-gold {
+  background: var(--color-gold-soft);
+  border-left: 3px solid var(--landing-gold-500);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: var(--color-text);
+}
+.issues-box {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+}
+.issues-box ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+.mfa-qr {
+  background: #fff;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  align-self: center;
+}
+
+/* Montants */
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.mono {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 0.92em;
+}
+.table tfoot td {
+  font-weight: 700;
+  border-top: 2px solid var(--color-border);
+}
+.row-link {
+  cursor: pointer;
+}
+.row-link:hover td {
+  background: var(--color-muted-soft);
+}
+
+/* Saisie des lignes de facture */
+.lines-table .input {
+  padding: 7px 9px;
+}
+.totals-table {
+  margin-left: auto;
+  width: min(340px, 100%);
+  border-collapse: collapse;
+}
+.totals-table td {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+.totals-table tr.grand td {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  border-top: 2px solid var(--color-border);
+  padding-top: 8px;
+}
+
+/* Banque : propositions de rapprochement */
+.match-suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  margin-top: 8px;
+  font-size: 13.5px;
+}
+.match-reasons {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.tx-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.tx-actions .input {
+  width: auto;
+  min-width: 200px;
+  flex: 1;
+}
+.tx-actions label {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Facture imprimable : fond blanc fixe (document), filet or comme les titres Nexus */
+.invoice-sheet {
+  background: #fff;
+  color: #1a1d24;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-md);
+  padding: 36px 40px;
+  max-width: 840px;
+  box-shadow: var(--shadow-sm);
+}
+.invoice-sheet h2.sheet-title {
+  font-family: var(--font-serif);
+  color: var(--landing-navy-700);
+  font-size: 26px;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+.invoice-sheet .gold-rule {
+  height: 3px;
+  background: var(--landing-gold-500);
+  width: 64px;
+  margin: 6px 0 16px;
+  border-radius: 2px;
+}
+.invoice-sheet .sheet-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+.invoice-sheet .party {
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+.invoice-sheet .table th {
+  color: #5f6673;
+  border-bottom: 2px solid var(--landing-navy-700);
+  background: none;
+}
+.invoice-sheet .table td {
+  color: #1a1d24;
+}
+.invoice-sheet .totals-table td {
+  color: #1a1d24;
+}
+.invoice-sheet .mentions {
+  font-size: 11.5px;
+  color: #5f6673;
+  margin-top: 22px;
+  border-top: 1px solid #e7e9ed;
+  padding-top: 10px;
+}
+
+/* Barre latérale : état de l'enregistrement en base */
+.sync-status {
+  margin: 8px 14px 14px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.sync-status::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--landing-gold-500);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.sync-status.sync-error {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+.sync-status.sync-error::before {
+  background: var(--color-danger);
+}
+.sync-status .btn {
+  margin-top: 6px;
+}
+
+.segmented {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 860px) {
+  .invoice-sheet {
+    padding: 20px;
+  }
+  .invoice-sheet .sheet-head {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  #sidebar,
+  #topbar,
+  .no-print,
+  #toast-root {
+    display: none !important;
+  }
+  #main-column {
+    margin: 0 !important;
+  }
+  #view-root {
+    padding: 0 !important;
+  }
+  .invoice-sheet {
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+  }
+}
+
+/* ---------------------------------------------------------------- pages « Fonctionnalités » (site public)
+   Même gabarit que Nexus RH, illustré par de vraies captures de l'application. Palette bleu marine + or. */
+.feature-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.feature-benefit-card {
+  text-align: left;
+  border-top: 3px solid var(--landing-gold-500);
+}
+.feature-benefit-card h3 {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0 0 8px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.feature-benefit-card h3 .icon-inline {
+  color: var(--landing-gold-500);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.feature-benefit-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+.feature-gallery {
+  display: grid;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.feature-figure {
+  margin: 0;
+}
+.feature-shot {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 18px 48px rgba(28, 43, 74, 0.18);
+}
+.feature-figure figcaption {
+  margin: 14px auto 0;
+  max-width: 820px;
+  text-align: center;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+.feature-page-hero .landing-hero-screenshot {
+  max-width: 620px;
+}
+@media (max-width: 720px) {
+  .feature-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature-gallery {
+    gap: 28px;
+  }
+}
+.feature-detail-page .landing-steps-grid {
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.feature-detail-page .feature-related-grid {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 960px) {
+  .feature-detail-page .landing-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .feature-detail-page .feature-related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .feature-detail-page .landing-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .feature-detail-page .landing-topbar-nav .btn-secondary {
+    display: none;
+  }
+  .feature-detail-page .landing-topbar-left {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Banque sur mobile : chaque mouvement en carte (date et montant en haut, suggestion et actions en dessous),
+   au lieu d'un tableau à trois colonnes qui repoussait « Associer » et les montants hors de l'écran. */
+@media (max-width: 720px) {
+  .bank-open-table,
+  .bank-open-table tbody {
+    display: block;
+  }
+  .bank-open-table tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bank-open-table td {
+    display: block;
+    padding: 0 !important;
+    border: 0 !important;
+    width: auto !important;
+  }
+  .bank-open-table td:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    color: var(--color-text-muted);
+    font-size: 13px;
+  }
+  .bank-open-table td:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .bank-open-table td:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+  }
+  .bank-open-table .match-suggestion {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .bank-open-table .match-suggestion .btn {
+    align-self: flex-start;
+  }
+  .bank-open-table .tx-actions .input {
+    min-width: 0;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+/* Garde de démarrage (boot.js) : affichée seulement si l'application n'a pas pu s'exécuter. */
+.boot-failure {
+  max-width: 520px;
+  margin: 12vh auto;
+  padding: 28px;
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1c2b4a);
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(28, 43, 74, 0.18);
+  font-family: inherit;
+  line-height: 1.6;
+}
+.boot-failure h1 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+/* ---------------------------------------------------------------------
+   Contrastes WCAG AA (lot 4 de l'audit) : chaque couleur de texte atteint 4,5:1 sur son fond, en
+   thème clair et sombre (mesuré par e2e/accessibilite.e2e.mjs). Palette inchangée : marine et or,
+   seules les nuances trop claires sont assombries (clair) ou éclaircies (sombre).
+   --------------------------------------------------------------------- */
+:root {
+  --color-text-muted: #5b6270; /* 5,3:1 sur le fond des badges, 5,7:1 sur le fond de page */
+  --color-success: #15803d; /* 4,8:1 sur le fond des badges « Payée » */
+  --toast-bg: #1a1d24;
+}
+:root[data-theme='dark'] {
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --toast-bg: #2a2f3a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --toast-bg: #2a2f3a;
+  }
+}
+/* Notification : fond sombre et texte blanc dans les deux thèmes (le fond reprenait la couleur du
+   texte, donc blanc sur blanc en thème sombre). */
+.toast {
+  background: var(--toast-bg);
+  color: #fff;
+}
+.toast-error {
+  background: #b91c1c;
+}
+/* Comparatif du site public : colonne Nexus lisible en thème sombre. */
+.landing-compare-table thead th:nth-child(2),
+.landing-compare-table tbody td:nth-child(2) {
+  color: var(--color-primary-text, var(--color-primary));
+}
+/* Facture sur téléphone : le tableau défile dans la feuille blanche au lieu de déborder sur le fond. */
+.invoice-sheet {
+  overflow-x: auto;
+}
+@media (max-width: 860px) {
+  .invoice-sheet .table th,
+  .invoice-sheet .table td {
+    padding: 8px 10px;
+  }
+}
+
+/* Lien d'évitement : invisible jusqu'à ce qu'il reçoive le focus clavier. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 1000;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--landing-navy-700);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 8px;
+}
+/* Titre qui reçoit le focus à chaque écran : pas de cadre à la souris, cadre visible au clavier. */
+#view-root h1:focus {
+  outline: none;
+}
+#view-root h1:focus-visible,
+tr[data-href]:focus-visible,
+.search-result-item:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+/* Cibles tactiles d'au moins 24 px (WCAG 2.5.8). */
+.btn-icon,
+.btn-sm,
+.btn-link,
+.theme-toggle-btn {
+  min-height: 24px;
+  min-width: 24px;
+}
+/* Banque : pagination des mouvements à justifier. */
+.bank-pager {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+}
+.bank-pager span {
+  margin-right: auto;
+}
+
+/* Sous 720 px : tableaux en cartes (lignes de facture, déclarations URSSAF). Chaque cellule reprend
+   le titre de sa colonne (data-label) ; plus aucun défilement horizontal. */
+@media (max-width: 720px) {
+  .cards-mobile thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .cards-mobile,
+  .cards-mobile tbody {
+    display: block;
+    width: 100%;
+  }
+  .cards-mobile tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cards-mobile td {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: auto !important;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    text-align: left;
+  }
+  .cards-mobile td[data-label]::before {
+    content: attr(data-label);
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
+  .cards-mobile .cards-full {
+    grid-column: 1 / -1;
+  }
+  .cards-mobile .cards-action {
+    grid-column: 1 / -1;
+    align-items: flex-end;
+  }
+  .cards-mobile .cards-action:empty {
+    display: none;
+  }
+  .cards-mobile td > .badge {
+    align-self: flex-start;
+  }
+  /* La zone défilante des tableaux (hauteur bornée) masquerait les cartes suivantes. */
+  .table-scroll:has(> .cards-mobile) {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* Point de check-list sans écran associé : présenté comme une information, pas comme un lien. */
+.action-center-static {
+  cursor: default;
+}
+.action-center-static:hover {
+  background: none;
+}
+
+/* Paramètres : même présentation que Nexus RH (style.css, retour Betty du 29/09/2026) — barre latérale
+   groupée par catégorie, une rubrique à la fois ; menu déroulant sous 860px. Réutilise .nav-item et
+   .nav-section-label de la barre principale. */
+.parametres-tab-select {
+  display: none;
+  margin-bottom: 18px;
+}
+.parametres-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+.parametres-sidebar-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 240px;
+  flex-shrink: 0;
+  padding-right: 20px;
+  border-right: 1px solid var(--color-border);
+}
+.parametres-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.parametres-content > .card {
+  margin-bottom: 0;
+}
+.settings-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.settings-cards-grid > .card {
+  margin-bottom: 0;
+}
+.settings-card-wide {
+  grid-column: 1 / -1;
+}
+@media (max-width: 860px) {
+  .parametres-sidebar-desktop {
+    display: none;
+  }
+  .parametres-tab-select {
+    display: block;
+  }
+  .parametres-layout {
+    flex-direction: column;
+    align-items: stretch; /* le contenu prend la largeur de l'écran au lieu de celle de ses formulaires */
+    gap: 0;
+  }
+  .settings-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Titres de groupe sur le fond clair de la page (et non sur la barre marine) : or plus foncé pour
+   rester lisible (contraste AA) ; le thème sombre garde l'or habituel. */
+.parametres-sidebar-desktop .nav-section-label {
+  color: #8a6420;
+  opacity: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .parametres-sidebar-desktop .nav-section-label {
+    color: var(--color-gold);
+  }
+}
+:root[data-theme='dark'] .parametres-sidebar-desktop .nav-section-label {
+  color: var(--color-gold);
+}
+
+/* QR code de virement sous la facture (fond blanc conservé en thème sombre pour rester lisible). */
+.payment-qr {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.payment-qr .qr-code {
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+.payment-qr p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  max-width: 46ch;
+}
+
+/* « Mon activité » (accueil) : chiffres clés, histogramme marine (12 derniers mois) et or (un an plus tôt). */
+.stats-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.stats-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stats-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+.stats-key-bar,
+.stats-key-prev {
+  display: inline-block;
+  width: 12px;
+  border-radius: 2px;
+  margin-left: 8px;
+}
+.stats-key-bar {
+  height: 10px;
+  background: var(--color-primary);
+}
+.stats-key-prev {
+  height: 3px;
+  background: var(--color-gold);
+}
+.stats-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+.stats-figure {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary-text);
+  font-variant-numeric: tabular-nums;
+}
+.stats-caption {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.stats-chart-wrap {
+  overflow-x: auto;
+}
+.stats-chart {
+  width: 100%;
+  min-width: 480px;
+  height: 200px;
+  display: block;
+}
+.stats-bar {
+  fill: var(--color-primary);
+  opacity: 0.78;
+}
+.stats-bar-current {
+  opacity: 1;
+}
+.stats-prev {
+  fill: var(--color-gold);
+}
+.stats-base {
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+.stats-axis {
+  fill: var(--color-text-muted);
+  font-size: 12px;
+}
+.stats-clients {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stats-clients h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.stats-client {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) 2fr auto;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+}
+.stats-client-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stats-client-track {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--color-primary-soft);
+  overflow: hidden;
+}
+.stats-client-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-gold);
+}
+.stats-client-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .stats-client {
+    grid-template-columns: 1fr auto;
+  }
+  .stats-client-track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+/* Tableau large dans une carte : défile dans son conteneur, jamais la page (téléphone). */
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* Groupe de réglages désactivable d'un bloc (réglages réservés au dirigeant). */
+.settings-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Bouton « Mettre à jour » pendant le rechargement des données. */
+@keyframes nexus-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+[data-action='reload'].is-spinning svg {
+  animation: nexus-spin 0.9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-action='reload'].is-spinning svg {
+    animation: none;
+    opacity: 0.5;
+  }
+}
+
+/* Écran Clients : noms et numéros en lien discret, aux couleurs de Nexus. */
+.client-name,
+.doc-link {
+  color: var(--color-primary-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.client-name:hover,
+.doc-link:hover,
+.client-name:focus-visible,
+.doc-link:focus-visible {
+  text-decoration: underline;
+}
+
+/* Résultat positif (e-mail de test parti). */
+.notice-success {
+  background: #e3f3ea;
+  color: #1f6b45;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+.action-center-item.action-center-urgent {
+  border-left: 3px solid var(--landing-gold-500);
+}
+
+/* Les notifications (texte seul) ne bloquent jamais un bouton situé dessous, en bas d'un écran de téléphone. */
+#toast-root {
+  pointer-events: none;
+}
+
+/* Fenêtres (modales) et guide de l'application : repris de Nexus RH (style.css), même rendu. */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+.modal-body {
+  padding: 22px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid var(--color-border);
+}
+.modal-xlarge {
+  max-width: min(1100px, 95vw);
+}
+
+/* ---------------------------------------------------------------------------
+   Guide de l'application, visite guidée et astuces (retour du 26/10/2026)
+   --------------------------------------------------------------------------- */
+.modal-xlarge {
+  max-width: 980px;
+  width: 100%;
+}
+
+.guide-modal .modal-body {
+  padding: 0;
+}
+
+.guide-version {
+  margin-left: 8px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.guide-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 420px;
+  max-height: 66vh;
+}
+
+.guide-toc {
+  border-right: 1px solid var(--color-border);
+  padding: 14px 12px;
+  overflow-y: auto;
+}
+
+.guide-search {
+  margin-bottom: 12px;
+}
+
+.guide-toc-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 12px 8px 4px;
+}
+
+.guide-toc-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm, 6px);
+  padding: 7px 10px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.guide-toc-item:hover {
+  background: var(--color-border-soft);
+}
+
+.guide-toc-item.active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.guide-toc-item[hidden],
+.guide-toc-group[hidden] {
+  display: none;
+}
+
+.guide-content {
+  padding: 18px 22px;
+  overflow-y: auto;
+  outline: none;
+}
+
+.guide-title {
+  margin: 0 0 10px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guide-title-icon {
+  display: inline-flex;
+  color: var(--landing-gold-500);
+}
+
+.guide-resume {
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 12px;
+}
+
+.guide-content p {
+  margin: 0 0 10px;
+  line-height: 1.55;
+}
+
+.guide-steps {
+  padding-left: 20px;
+  margin: 0 0 12px;
+}
+
+.guide-steps li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.guide-defs dt {
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.guide-defs dd {
+  margin: 2px 0 0;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.guide-tips-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.guide-tips-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.guide-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 860px) {
+  .guide-layout {
+    grid-template-columns: 1fr;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .guide-toc {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+    max-height: 190px;
+  }
+  .guide-content {
+    overflow-y: visible;
+    padding: 14px 16px;
+  }
+}
+
+/* Manuel du guide (retour du 28/10/2026) : barre de recherche, résultats, questions repliables. */
+.guide-searchbar {
+  padding: 14px 22px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.guide-searchbar .guide-search {
+  margin: 0;
+  width: 100%;
+  font-size: 15px;
+}
+
+.guide-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.guide-chip {
+  background: var(--color-border-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.guide-chip:hover {
+  border-color: var(--landing-gold-500);
+}
+
+.guide-entries {
+  margin: 14px 0;
+}
+
+.guide-entries-label {
+  padding-left: 0;
+}
+
+.guide-toolbar {
+  display: flex;
+  gap: 14px;
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.guide-entry {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm, 6px);
+  margin-bottom: 8px;
+  background: var(--color-surface, transparent);
+}
+
+.guide-entry summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.guide-entry summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide-entry summary::after {
+  content: '+';
+  color: var(--landing-gold-500);
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.guide-entry[open] summary::after {
+  content: '\2212';
+}
+
+.guide-entry[open] summary {
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.guide-entry-body {
+  padding: 10px 14px 4px;
+}
+
+.guide-entry-body .guide-actions {
+  margin: 4px 0 10px;
+}
+
+.guide-entry-flash {
+  animation: guide-entry-flash 1.8s ease-out;
+}
+
+.guide-results-count {
+  margin: 0 0 10px;
+}
+
+.guide-results-count .btn-link {
+  margin-left: 10px;
+}
+
+.guide-results-note {
+  margin: 0 0 10px;
+}
+
+.guide-results-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.guide-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm, 6px);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font: inherit;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.guide-result:hover,
+.guide-result:focus-visible {
+  border-color: var(--landing-gold-500);
+  background: var(--color-border-soft);
+}
+
+.guide-result-chap {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.guide-result-titre {
+  font-weight: 600;
+}
+
+.guide-result-extrait {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.guide-content mark {
+  background: color-mix(in srgb, var(--landing-gold-500) 35%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.guide-back {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 760px) {
+  .guide-searchbar {
+    padding: 12px 16px 10px;
+  }
+  .guide-entry summary {
+    padding: 10px 12px;
+  }
+}
+
+.guide-modal .guide-body {
+  overflow: hidden;
+}
+
+.guide-modal .guide-layout {
+  min-height: 300px;
+  max-height: calc(66vh - 70px);
+}
+
+/* Défilement du guide : le sommaire et le texte défilent chacun dans leur volet (la ligne de la grille avait la hauteur du texte, qui était coupé). */
+.guide-modal .guide-body {
+  overflow-y: auto;
+}
+
+@media (min-width: 761px) {
+  .guide-modal .guide-layout {
+    height: calc(66vh - 70px);
+    max-height: none;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .guide-modal .guide-toc,
+  .guide-modal .guide-content {
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+/* Schémas du guide (retour du 29/10/2026). Marine et or, gris neutre ; suivent le thème clair ou sombre. */
+.guide-figure {
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: 8px;
+  background: var(--color-surface);
+  overflow-x: auto;
+}
+
+.guide-figure svg {
+  display: block;
+  width: 100%;
+  min-width: 440px;
+  max-width: 600px;
+  height: auto;
+  margin: 0 auto;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.guide-figure figcaption {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Vraies captures dans le guide (retour du 29/10/2026) : cliquables pour agrandir. */
+.guide-shot {
+  padding: 8px;
+}
+
+.guide-shot-img {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: zoom-in;
+  background: #fff;
+}
+
+.guide-shot-img:focus-visible {
+  outline: 2px solid var(--landing-gold-500);
+  outline-offset: 2px;
+}
+
+.guide-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(10, 16, 30, 0.82);
+  cursor: zoom-out;
+}
+
+.guide-lightbox img {
+  max-width: min(96vw, 1200px);
+  max-height: calc(100vh - 90px);
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Visite guidée (reprise de Nexus RH) : un halo autour de l'élément expliqué, et une carte à côté. */
+#tour-root {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+#tour-root.tour-centered {
+  background: rgba(10, 18, 36, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tour-spot {
+  position: fixed;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(10, 18, 36, 0.6);
+  outline: 2px solid var(--landing-gold-500);
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+.tour-card {
+  position: fixed;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-lg);
+  padding: 16px 18px;
+  max-width: calc(100vw - 24px);
+}
+#tour-root.tour-centered .tour-card {
+  position: relative;
+  top: auto !important;
+  left: auto !important;
+  width: min(380px, calc(100vw - 24px)) !important;
+}
+.tour-card h3 {
+  margin: 4px 0 6px;
+  font-size: 17px;
+}
+.tour-card p {
+  margin: 0 0 14px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+.tour-step-count {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--landing-gold-500);
+}
+.tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.tour-actions-main {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: auto;
+}
+/* Numéro d'étape : or plus foncé sur la carte claire (contraste AA), or habituel en thème sombre. */
+.tour-step-count {
+  color: #8a6420;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .tour-step-count {
+    color: var(--landing-gold-500);
+  }
+}
+:root[data-theme='dark'] .tour-step-count {
+  color: var(--landing-gold-500);
+}
+
+/* Pilotage : barre d'avancement du budget (réalisé, repère du prévu à date). */
+.budget-bar {
+  position: relative;
+  height: 8px;
+  margin-top: 6px;
+  min-width: 90px;
+  border-radius: 4px;
+  background: var(--color-border-soft);
+}
+.budget-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 4px;
+  background: var(--color-primary);
+}
+.budget-bar-mark {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 14px;
+  background: var(--color-gold);
+}
+.row-highlight td {
+  background: var(--color-gold-soft);
+}
+.stock-options summary {
+  cursor: pointer;
+  color: var(--color-primary-text);
+  font-weight: 600;
+}
+
+/* Espace client (page publique espace-client.html). */
+.portal-body {
+  background: var(--color-bg, #f6f7fb);
+}
+.portal {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+.portal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.portal-docs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.portal-doc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.portal-doc-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.portal-pay {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.portal-accept {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-md);
+  background: var(--color-gold-soft);
+}
+.portal-accept .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.portal-footer {
+  margin-top: 28px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------ module Articles et stock */
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+.alert-warning {
+  background: var(--color-warning-soft);
+  border-color: var(--color-warning);
+}
+.alert-success {
+  background: var(--color-success-soft);
+  border-color: var(--color-success);
+}
+.text-danger {
+  color: var(--color-danger);
+}
+.text-success {
+  color: var(--color-success);
+}
+.btn-lg {
+  padding: 14px 20px;
+  font-size: 1.05rem;
+}
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.article-big {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.article-big-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-strong);
+}
+.article-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  margin: 0;
+}
+.article-facts dt {
+  color: var(--color-text-muted);
+}
+.article-facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+.grid-preview td,
+.grid-preview th {
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+.grid-preview .grid-first-row td {
+  background: var(--color-success-soft);
+  font-weight: 600;
+}
+/* Scan plein écran : la vidéo de la caméra et un cadre de visée. */
+.scan-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+}
+.scan-box {
+  position: relative;
+  width: min(92vw, 560px);
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #000;
+}
+.scan-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.scan-frame {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 30%;
+  bottom: 30%;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+}
+.scan-status {
+  color: #fff;
+  text-align: center;
+  max-width: 520px;
+}
+
+/* ------------------------------------------------------------------ plateforme : organisations et droits */
+#topbar-org {
+  flex: 0 0 auto;
+}
+.topbar-org-select {
+  max-width: 240px;
+  font-weight: 600;
+}
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+.role-space {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px 12px;
+  margin: 0;
+}
+.role-space legend {
+  font-weight: 700;
+  padding: 0 6px;
+}
+.module-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.module-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.module-list li > span:first-child {
+  min-width: 220px;
+}

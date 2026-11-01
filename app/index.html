@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Politique de sécurité : scripts du site uniquement (aucun CDN), connexions limitées à la base et aux API publiques. Styles en ligne admis (attributs style des vues). -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://socvvthikxaubehihewl.supabase.co; font-src 'self'; connect-src 'self' https://socvvthikxaubehihewl.supabase.co wss://socvvthikxaubehihewl.supabase.co https://recherche-entreprises.api.gouv.fr; frame-src 'self' blob: https://socvvthikxaubehihewl.supabase.co; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Nexus Gestion</title>
+    <meta
+      name="description"
+      content="Nexus Gestion tient la comptabilité de votre TPE, de la facture au bilan, sans jargon : factures conformes, banque rapprochée, TVA préparée, FEC."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nexus Gestion, la comptabilité de votre TPE sans jargon" />
+    <meta property="og:description" content="Factures conformes, banque rapprochée automatiquement, TVA préparée et FEC pour votre expert-comptable." />
+    <meta property="og:image" content="landing-screenshot.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png" />
+    <link rel="apple-touch-icon" href="icon-180.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#1c2b4a" />
+    <!-- Thème appliqué avant le premier rendu, service worker et garde de démarrage : voir boot.js. -->
+    <script src="boot.js?v=e821f3b"></script>
+    <link rel="stylesheet" href="nexus-rh.css?v=e821f3b" />
+    <link rel="stylesheet" href="gestion.css?v=e821f3b" />
+  </head>
+  <body>
+    <div id="landing-root" style="display: none"></div>
+    <div id="login-root" style="display: none"></div>
+    <div id="app-shell" style="display: none"></div>
+    <div id="toast-root" role="status" aria-live="polite" aria-atomic="true"></div>
+    <script type="module" src="app.js?v=e821f3b"></script>
+  </body>
+</html>
