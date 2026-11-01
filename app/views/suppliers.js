@@ -4,15 +4,15 @@
  * rapprochement avec l'ancien logiciel). Réservé au dirigeant et à l'expert-comptable.
  */
 
-import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=e821f3b';
-import { LEVELS } from '../../core/commerce/legacy.js?v=e821f3b';
-import { comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=e821f3b';
-import { fold } from '../../core/commerce/sheet.js?v=e821f3b';
-import { commerce } from '../commerce/data.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { eur, frDate } from '../state.js?v=e821f3b';
-import { badge, icon } from '../ui/common.js?v=e821f3b';
-import { commerceUi, fmtBp, supplierName } from './articles.js?v=e821f3b';
+import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=d415f7a';
+import { LEVELS } from '../../core/commerce/legacy.js?v=d415f7a';
+import { comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=d415f7a';
+import { fold } from '../../core/commerce/sheet.js?v=d415f7a';
+import { commerce } from '../commerce/data.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { eur, frDate, ui } from '../state.js?v=d415f7a';
+import { badge, icon } from '../ui/common.js?v=d415f7a';
+import { commerceUi, fmtBp, supplierName } from './articles.js?v=d415f7a';
 
 const articlesOf = (id) => commerce.articles.filter((a) => (a.suppliers || []).some((s) => s.supplierId === id));
 const isPrimary = (a, id) => [...(a.suppliers || [])].sort((x, y) => (x.rank ?? 0) - (y.rank ?? 0))[0]?.supplierId === id;
@@ -253,6 +253,28 @@ export function supplierDetail(s) {
 
 // ------------------------------------------------------------------ caisse
 
+/** Copie des données du module : enregistrer (sauvegarde, autre appareil) et, en démonstration, charger. */
+export const snapshotCard = () =>
+  html`<div class="card" style="display:flex;flex-direction:column;gap:10px">
+    <h2>Copie des données du module</h2>
+    <p class="text-muted" style="margin:0">
+      Un fichier qui contient tout le module (articles, fournisseurs, grilles, stock, prix à valider) : pour passer d’un appareil à l’autre ou garder une
+      sauvegarde. Il contient des prix d’achat : gardez-le pour vous.
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" class="btn btn-secondary" data-action="commerce-snapshot-save">${icon('document')} Enregistrer une copie</button>
+      ${
+        ui.demo
+          ? html`<button type="button" class="btn btn-primary" data-action="commerce-file-pick" data-id="snapshot">
+              ${icon('upload')} Charger un jeu de données
+            </button>`
+          : ''
+      }
+    </div>
+    <input type="file" accept=".json,application/json" data-action="commerce-snapshot-file" hidden aria-label="Jeu de données Nexus" />
+    ${ui.demo ? '' : html`<p class="form-hint" style="margin:0">En mode connecté, la reprise passe par l’export Kezia et les grilles (étapes ci-dessus).</p>`}
+  </div>`;
+
 export function cashRegisterTab() {
   const st = commerceUi();
   const k = st.kezia;
@@ -310,7 +332,8 @@ export function cashRegisterTab() {
       </div>
       <input type="file" accept=".xls,.xlsx,.csv" data-action="commerce-legacy-file" hidden aria-label="Export de l'ancien logiciel" />
       ${lg ? legacyBlock(lg) : ''}
-    </div>`;
+    </div>
+    ${snapshotCard()}`;
 }
 
 function legacyBlock(lg) {

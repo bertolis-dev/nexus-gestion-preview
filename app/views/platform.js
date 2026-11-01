@@ -4,11 +4,11 @@
  * client : pour l'aider, il faut un accès support qu'il accorde lui-même (support_grants).
  */
 
-import { MODULES } from '../../core/platform.js?v=e821f3b';
-import { html, raw } from '../html.js?v=e821f3b';
-import { enabledModules, isOperator, platformStructures } from '../platform.js?v=e821f3b';
-import { frDate, ui, ws } from '../state.js?v=e821f3b';
-import { badge, viewHeader } from '../ui/common.js?v=e821f3b';
+import { MODULES } from '../../core/platform.js?v=d415f7a';
+import { html, raw } from '../html.js?v=d415f7a';
+import { enabledModules, isOperator, platformStructures } from '../platform.js?v=d415f7a';
+import { frDate, ui, ws } from '../state.js?v=d415f7a';
+import { badge, viewHeader } from '../ui/common.js?v=d415f7a';
 
 const OPTIONAL = MODULES.filter((m) => !m.soon && !m.alwaysOn);
 const days = (iso) => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86400000) : null);
@@ -36,7 +36,7 @@ function load(st) {
     .catch((err) => Object.assign(st, { rows: [], error: err.message }))
     .finally(() => {
       st.loading = null;
-      import('../render.js?v=e821f3b').then((m) => m.render());
+      import('../render.js?v=d415f7a').then((m) => m.render());
     });
 }
 

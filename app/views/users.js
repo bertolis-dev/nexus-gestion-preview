@@ -4,11 +4,11 @@
  * Administration). Le rôle Administrateur a tout, ne se modifie pas, et l'organisation en garde toujours un.
  */
 
-import { LEVELS, MODULES, SPACES, levelOf } from '../../core/platform.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { canManageUsers, enabledModules, listMembers, listRoles } from '../platform.js?v=e821f3b';
-import { cloudState, frDate, ui } from '../state.js?v=e821f3b';
-import { badge } from '../ui/common.js?v=e821f3b';
+import { LEVELS, MODULES, SPACES, levelOf } from '../../core/platform.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { canManageUsers, enabledModules, listMembers, listRoles } from '../platform.js?v=d415f7a';
+import { cloudState, frDate, ui } from '../state.js?v=d415f7a';
+import { badge } from '../ui/common.js?v=d415f7a';
 
 const BASE_LABEL = { dirigeant: 'Dirigeant', collaborateur: 'Collaborateur', expert: 'Expert-comptable' };
 const STATUS = { active: ['Actif', 'success'], invited: ['Invité', 'warning'], suspended: ['Suspendu', 'muted'] };
@@ -52,7 +52,7 @@ export function platformData() {
       .catch((err) => Object.assign(st, { members: [], roles: [], error: err.message }))
       .finally(() => {
         st.loading = null;
-        import('../render.js?v=e821f3b').then((m) => m.render());
+        import('../render.js?v=d415f7a').then((m) => m.render());
       });
   }
   return st;
@@ -231,8 +231,12 @@ export function modulesTab() {
                   ${
                     ui.demo && m.code === 'articles'
                       ? html`<label style="margin-left:8px"
-                          ><input type="checkbox" data-action="commerce-module" ${on.has('articles') ? raw('checked') : ''} /> activer en démonstration</label
-                        >`
+                            ><input type="checkbox" data-action="commerce-module" ${on.has('articles') ? raw('checked') : ''} /> activer en démonstration</label
+                          >
+                          <button type="button" class="btn btn-secondary btn-sm" data-action="commerce-file-pick" data-id="snapshot">
+                            Charger un jeu de données
+                          </button>
+                          <input type="file" accept=".json,application/json" data-action="commerce-snapshot-file" hidden aria-label="Jeu de données Nexus" />`
                       : ''
                   }
                 </li>`,

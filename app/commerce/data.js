@@ -6,11 +6,11 @@
  *    renvoie ni prix d'achat, ni grilles, ni historique : la vue simple n'a rien à cacher.
  */
 
-import { articleRows, commerceFromRows, historyRow, pricelistRow, profileRow, proposalRow, stockMoveRow, supplierRow } from '../../core/commerce/rows.js?v=e821f3b';
-import { supabaseClient } from '../cloud.js?v=e821f3b';
-import { getDemoKey, setDemoKey } from '../demo-store.js?v=e821f3b';
-import { can } from '../platform.js?v=e821f3b';
-import { cloudState, ui } from '../state.js?v=e821f3b';
+import { articleRows, commerceFromRows, historyRow, pricelistRow, profileRow, proposalRow, stockMoveRow, supplierRow } from '../../core/commerce/rows.js?v=d415f7a';
+import { supabaseClient } from '../cloud.js?v=d415f7a';
+import { getDemoKey, setDemoKey } from '../demo-store.js?v=d415f7a';
+import { can } from '../platform.js?v=d415f7a';
+import { cloudState, ui } from '../state.js?v=d415f7a';
 
 const empty = () => ({ suppliers: [], pricelists: [], articles: [], history: [], moves: [], proposals: [] });
 export const commerce = { loaded: false, loading: null, error: null, ...empty() };

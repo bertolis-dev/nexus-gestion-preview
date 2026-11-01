@@ -12,9 +12,9 @@
  * le validateur de la PA retenue.
  */
 
-import { tradeZone } from './countries.js?v=e821f3b';
-import { lineHt, issuerName } from './invoices.js?v=e821f3b';
-import { sum, vatFromHt } from './money.js?v=e821f3b';
+import { tradeZone } from './countries.js?v=d415f7a';
+import { lineHt, issuerName } from './invoices.js?v=d415f7a';
+import { sum, vatFromHt } from './money.js?v=d415f7a';
 
 const NS = {
   rsm: 'urn:un:unece:uncefact:data:standard:CrossIndustryInvoice:100',

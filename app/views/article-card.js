@@ -6,14 +6,14 @@
  *    historique, et proposition d'un nouveau prix (validée par le dirigeant).
  */
 
-import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=e821f3b';
-import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=e821f3b';
-import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=e821f3b';
-import { canDecide, canManage, commerce } from '../commerce/data.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { eur, frDate, today } from '../state.js?v=e821f3b';
-import { badge, icon } from '../ui/common.js?v=e821f3b';
-import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=e821f3b';
+import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=d415f7a';
+import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=d415f7a';
+import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=d415f7a';
+import { canDecide, canManage, commerce } from '../commerce/data.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { eur, frDate, today } from '../state.js?v=d415f7a';
+import { badge, icon } from '../ui/common.js?v=d415f7a';
+import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=d415f7a';
 
 const euros = (c) => (c === null || c === undefined ? '' : (c / 100).toFixed(2).replace('.', ','));
 
@@ -192,6 +192,7 @@ function saleBlock(a, expert) {
         ? html`<dl class="article-facts">
               <dt>Prix de l’ancien logiciel</dt>
               <dd>${a.legacyPrice ? `${eur(a.legacyPrice)} HT` : '—'}${legacy ? ` (code ${legacy.value})` : ''}</dd>
+              ${a.legacyWhy ? html`<dd class="text-muted" style="grid-column:1 / -1;font-weight:400">Rapprochement : ${a.legacyWhy}</dd>` : ''}
               <dt>Prix de vente conseillé (fournisseur)</dt>
               <dd>${retail ? `${eur(retail)} HT` : '—'}</dd>
               <dt>Marge actuelle</dt>

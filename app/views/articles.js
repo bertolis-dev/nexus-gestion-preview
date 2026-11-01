@@ -4,16 +4,16 @@
  * prix proposés à valider. La fiche, les fournisseurs et l'assistant d'import sont dans leurs fichiers.
  */
 
-import { articleAlerts, margin, purchaseOf } from '../../core/commerce/articles.js?v=e821f3b';
-import { fold } from '../../core/commerce/sheet.js?v=e821f3b';
-import { stockLevels, stockSummary } from '../../core/commerce/stock.js?v=e821f3b';
-import { canDecide, canManage, commerce, loadCommerce } from '../commerce/data.js?v=e821f3b';
-import { html, opt, raw } from '../html.js?v=e821f3b';
-import { eur, frDate, ui } from '../state.js?v=e821f3b';
-import { badge, icon, viewHeader } from '../ui/common.js?v=e821f3b';
-import { articleCard } from './article-card.js?v=e821f3b';
-import { gridImport } from './grid-import.js?v=e821f3b';
-import { cashRegisterTab, supplierDetail, suppliersList } from './suppliers.js?v=e821f3b';
+import { articleAlerts, margin, purchaseOf } from '../../core/commerce/articles.js?v=d415f7a';
+import { fold } from '../../core/commerce/sheet.js?v=d415f7a';
+import { stockLevels, stockSummary } from '../../core/commerce/stock.js?v=d415f7a';
+import { canDecide, canManage, commerce, loadCommerce } from '../commerce/data.js?v=d415f7a';
+import { html, opt, raw } from '../html.js?v=d415f7a';
+import { eur, frDate, ui } from '../state.js?v=d415f7a';
+import { badge, icon, viewHeader } from '../ui/common.js?v=d415f7a';
+import { articleCard } from './article-card.js?v=d415f7a';
+import { gridImport } from './grid-import.js?v=d415f7a';
+import { cashRegisterTab, supplierDetail, suppliersList } from './suppliers.js?v=d415f7a';
 
 export const commerceUi = () =>
   (ui.commerce ||= { search: '', filter: '', supplier: '', limit: 100, mode: canManage() ? 'expert' : 'simple', wizard: null, compare: null, scanMiss: null });
@@ -54,7 +54,7 @@ function tabs(active) {
 
 export function viewArticles(arg = '') {
   if (!commerce.loaded) {
-    if (!commerce.loading && !commerce.error) loadCommerce().then(() => import('../render.js?v=e821f3b').then((m) => m.render()));
+    if (!commerce.loading && !commerce.error) loadCommerce().then(() => import('../render.js?v=d415f7a').then((m) => m.render()));
     return html`${viewHeader('Articles et stock', '')}
       <div class="card">
         ${
@@ -305,7 +305,14 @@ function proposalsTab() {
       <td>${actions}</td>
     </tr>`;
   return html`<div class="card table-card">
-      <h2 style="padding:16px 16px 0">Prix de vente proposés (${open.length})</h2>
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:16px 16px 0">
+        <h2 style="margin:0">Prix de vente proposés (${open.length})</h2>
+        ${
+          canDecide() && open.length > 1
+            ? html`<button type="button" class="btn btn-primary" data-action="commerce-decide-all">Tout valider (${open.length})</button>`
+            : ''
+        }
+      </div>
       <p class="text-muted" style="padding:0 16px">
         ${canDecide() ? 'Validez : le prix passe dans la fiche et dans l’historique. Pensez ensuite à l’envoyer à la caisse (onglet Caisse).' : 'Le dirigeant valide ou refuse chaque proposition.'}
       </p>

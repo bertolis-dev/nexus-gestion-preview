@@ -5,14 +5,14 @@
  * EAN ou référence, comparatif avec la grille précédente) puis validation. L'EAN est la clé pivot.
  */
 
-import { matchLines } from '../../core/commerce/articles.js?v=e821f3b';
-import { FIELDS, columnLabels } from '../../core/commerce/sheet.js?v=e821f3b';
-import { comparePricelists, supplierPricelists } from '../../core/commerce/pricelists.js?v=e821f3b';
-import { commerce } from '../commerce/data.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { eur, frDate, today } from '../state.js?v=e821f3b';
-import { badge, icon } from '../ui/common.js?v=e821f3b';
-import { commerceUi, fmtBp } from './articles.js?v=e821f3b';
+import { matchLines } from '../../core/commerce/articles.js?v=d415f7a';
+import { FIELDS, columnLabels } from '../../core/commerce/sheet.js?v=d415f7a';
+import { comparePricelists, supplierPricelists } from '../../core/commerce/pricelists.js?v=d415f7a';
+import { commerce } from '../commerce/data.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { eur, frDate, today } from '../state.js?v=d415f7a';
+import { badge, icon } from '../ui/common.js?v=d415f7a';
+import { commerceUi, fmtBp } from './articles.js?v=d415f7a';
 
 const letter = (i) => {
   let s = '';

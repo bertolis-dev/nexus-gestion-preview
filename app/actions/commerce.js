@@ -4,22 +4,23 @@
  * les fichiers du module ont leurs propres écouteurs (data-form et data-action « commerce-… »).
  */
 
-import { applyPricelist, articleFromLine, eanIndex, withCode } from '../../core/commerce/articles.js?v=e821f3b';
-import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=e821f3b';
-import { eanCandidates } from '../../core/commerce/ean.js?v=e821f3b';
-import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=e821f3b';
-import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=e821f3b';
-import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=e821f3b';
-import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=e821f3b';
-import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=e821f3b';
-import { parseEuros } from '../../core/money.js?v=e821f3b';
-import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=e821f3b';
-import { downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=e821f3b';
-import { openScanner } from '../commerce/scanner.js?v=e821f3b';
-import { render } from '../render.js?v=e821f3b';
-import { newId, today, ws } from '../state.js?v=e821f3b';
-import { save, toast } from '../store.js?v=e821f3b';
-import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=e821f3b';
+import { applyPricelist, articleFromLine, eanIndex, withCode } from '../../core/commerce/articles.js?v=d415f7a';
+import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=d415f7a';
+import { eanCandidates } from '../../core/commerce/ean.js?v=d415f7a';
+import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=d415f7a';
+import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=d415f7a';
+import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=d415f7a';
+import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=d415f7a';
+import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=d415f7a';
+import { buildSnapshot, parseSnapshot } from '../../core/commerce/snapshot.js?v=d415f7a';
+import { parseEuros } from '../../core/money.js?v=d415f7a';
+import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=d415f7a';
+import { downloadJson, downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=d415f7a';
+import { openScanner } from '../commerce/scanner.js?v=d415f7a';
+import { render } from '../render.js?v=d415f7a';
+import { newId, today, ui, ws } from '../state.js?v=d415f7a';
+import { save, toast } from '../store.js?v=d415f7a';
+import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=d415f7a';
 
 const fail = (err) => toast(err?.message || String(err), true);
 
@@ -212,6 +213,30 @@ async function legacyAccept(which) {
   );
 }
 
+/**
+ * Jeu de données chargé en démonstration : il remplace le module, l'active, et donne son nom à
+ * l'entreprise de démonstration (ex. Les Revêtements Briards). Rien ne part sur internet.
+ */
+async function snapshotFile(file) {
+  if (!ui.demo) return toast('Le chargement d’un jeu de données se fait en démonstration.', true);
+  try {
+    const snap = parseSnapshot(await file.text());
+    if (!confirm(`Remplacer les données du module par ce fichier (${snap.counts.articles} articles, ${snap.counts.suppliers} fournisseurs) ?`)) return;
+    await loadCommerce();
+    Object.assign(commerce, snap.commerce);
+    ws.company.modules = { ...(ws.company.modules || {}), commerce: true };
+    if (snap.organisation?.name) ws.company.name = snap.organisation.name;
+    save();
+    await persist();
+    commerceUi().scanMiss = null;
+    location.hash = '#/articles';
+    toast(`Jeu de données chargé : ${snap.counts.articles} articles, ${snap.counts.proposals} prix à valider.`);
+  } catch (err) {
+    fail(err);
+  }
+  render();
+}
+
 // ------------------------------------------------------------------ clics
 
 export const actionsTable = {
@@ -223,6 +248,22 @@ export const actionsTable = {
   'commerce-scan': () => openScanner(openCode),
   'commerce-mode': ({ id }) => {
     if (id) commerceUi().mode = id;
+    render();
+  },
+  'commerce-decide-all': async () => {
+    const open = commerce.proposals.filter((p) => p.status === 'proposee');
+    if (!canDecide() || !open.length || !confirm(`Valider les ${open.length} prix proposés ? Chaque prix passe dans sa fiche et dans l’historique.`)) return;
+    let done = 0;
+    try {
+      for (const p of open) {
+        await decideProposal(p, true, { newId, date: today() });
+        done++;
+      }
+      toast(`${done} prix validés : pensez à les envoyer à la caisse (onglet Caisse).`);
+    } catch (err) {
+      fail(err);
+      await loadCommerce(true);
+    }
     render();
   },
   'commerce-decide': async ({ id, index }) => {
@@ -283,6 +324,14 @@ export const actionsTable = {
     commerceUi().wizard = { supplierId: id, step: 1 };
     location.hash = '#/articles/import';
   },
+  'commerce-snapshot-save': () => {
+    const name = (ws.company.name || 'nexus')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^A-Za-z0-9]+/g, '-');
+    downloadJson(buildSnapshot(commerce, { organisation: { name: ws.company.name } }), `${name}-articles-${today()}.json`);
+    toast('Copie enregistrée : elle contient vos prix d’achat, gardez-la pour vous.');
+  },
   'commerce-file-pick': ({ id }) => document.querySelector(`input[data-action="commerce-${id}-file"]`)?.click(),
   'commerce-wiz-back': ({ index }) => {
     const w = commerceUi().wizard;
@@ -302,6 +351,7 @@ document.addEventListener('change', async (e) => {
   if (!action?.startsWith('commerce-')) return;
   if (action === 'commerce-kezia-file' && el.files[0]) return keziaFile(el.files[0]);
   if (action === 'commerce-legacy-file' && el.files[0]) return legacyFile(el.files[0]);
+  if (action === 'commerce-snapshot-file' && el.files[0]) return snapshotFile(el.files[0]);
   if (action === 'commerce-mode') {
     commerceUi().mode = el.value;
     return render();

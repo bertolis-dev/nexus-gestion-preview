@@ -2,21 +2,21 @@
  * Écran « sales ».
  */
 
-import { VAT_RATES_BP, checkInvoice, computeTotals, isVatExempt, issuerName, lineHt } from '../../core/invoices.js?v=e821f3b';
-import { FREQUENCIES, nextDate } from '../../core/recurring.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { ICONS } from '../icons.js?v=e821f3b';
-import { cloudState, eur, frDate, pct, today, ui, ws } from '../state.js?v=e821f3b';
-import { save, toast } from '../store.js?v=e821f3b';
-import { isUnconfirmed } from '../sync-ui.js?v=e821f3b';
-import { badge, viewHeader } from '../ui/common.js?v=e821f3b';
-import { qrSvg } from '../ui/qr.js?v=e821f3b';
-import { invoicePaymentQr } from '../../core/epc.js?v=e821f3b';
-import { lifecycleCard } from './expenses.js?v=e821f3b';
-import { viewInvoiceForm } from './invoice-form.js?v=e821f3b';
-import { depositCard } from './deposit.js?v=e821f3b';
-import { viewTime } from './pilotage.js?v=e821f3b';
-import { REMINDER_STEPS, dueReminderLevel, invoiceEmail, reminderMessage } from '../../core/reminders.js?v=e821f3b';
+import { VAT_RATES_BP, checkInvoice, computeTotals, isVatExempt, issuerName, lineHt } from '../../core/invoices.js?v=d415f7a';
+import { FREQUENCIES, nextDate } from '../../core/recurring.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { ICONS } from '../icons.js?v=d415f7a';
+import { cloudState, eur, frDate, pct, today, ui, ws } from '../state.js?v=d415f7a';
+import { save, toast } from '../store.js?v=d415f7a';
+import { isUnconfirmed } from '../sync-ui.js?v=d415f7a';
+import { badge, viewHeader } from '../ui/common.js?v=d415f7a';
+import { qrSvg } from '../ui/qr.js?v=d415f7a';
+import { invoicePaymentQr } from '../../core/epc.js?v=d415f7a';
+import { lifecycleCard } from './expenses.js?v=d415f7a';
+import { viewInvoiceForm } from './invoice-form.js?v=d415f7a';
+import { depositCard } from './deposit.js?v=d415f7a';
+import { viewTime } from './pilotage.js?v=d415f7a';
+import { REMINDER_STEPS, dueReminderLevel, invoiceEmail, reminderMessage } from '../../core/reminders.js?v=d415f7a';
 
 // ------------------------------------------------------------------ factures (§3.2, §3.5)
 

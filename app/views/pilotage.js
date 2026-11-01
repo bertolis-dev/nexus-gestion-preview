@@ -3,16 +3,16 @@
  * écrans : temps passé (Factures), trajets (Dépenses), stock (Paramètres › Catalogue), espace client (fiche client).
  */
 
-import { fiscalCalendar } from '../../core/fiscal-calendar.js?v=e821f3b';
-import { BUDGET_LINES, budgetReport } from '../../core/budget.js?v=e821f3b';
-import { compareScenarios, capitalCents, REMUNERATION_DEFAULTS } from '../../core/remuneration.js?v=e821f3b';
-import { entryAmount, formatMinutes, isBilled, unbilledByClient } from '../../core/timesheet.js?v=e821f3b';
-import { stockLevels } from '../../core/stock.js?v=e821f3b';
-import { HORSEPOWER_CHOICES } from '../../core/mileage.js?v=e821f3b';
-import { field, html, opt, raw } from '../html.js?v=e821f3b';
-import { isMicro } from '../render.js?v=e821f3b';
-import { cloudState, eur, frDate, today, ui, ws } from '../state.js?v=e821f3b';
-import { badge, viewHeader } from '../ui/common.js?v=e821f3b';
+import { fiscalCalendar } from '../../core/fiscal-calendar.js?v=d415f7a';
+import { BUDGET_LINES, budgetReport } from '../../core/budget.js?v=d415f7a';
+import { compareScenarios, capitalCents, REMUNERATION_DEFAULTS } from '../../core/remuneration.js?v=d415f7a';
+import { entryAmount, formatMinutes, isBilled, unbilledByClient } from '../../core/timesheet.js?v=d415f7a';
+import { stockLevels } from '../../core/stock.js?v=d415f7a';
+import { HORSEPOWER_CHOICES } from '../../core/mileage.js?v=d415f7a';
+import { field, html, opt, raw } from '../html.js?v=d415f7a';
+import { isMicro } from '../render.js?v=d415f7a';
+import { cloudState, eur, frDate, today, ui, ws } from '../state.js?v=d415f7a';
+import { badge, viewHeader } from '../ui/common.js?v=d415f7a';
 
 const euros = (c) => (c ? (c / 100).toFixed(2).replace('.', ',').replace(/,00$/, '') : '');
 const errorBox = (msg) => (msg ? html`<div class="issues-box" role="alert">${msg}</div>` : '');

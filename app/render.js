@@ -2,30 +2,30 @@
  * Rendu général : choix de l’écran, cadre de l’application, recherche globale, repères d’accessibilité.
  */
 
-import { html, raw } from './html.js?v=e821f3b';
-import { ICONS } from './icons.js?v=e821f3b';
-import { featureBySlug, featureSlug, features, loadFeatures, viewFeature, viewLanding } from './site/landing.js?v=e821f3b';
-import { cloudState, eur, frDate, ui, ws } from './state.js?v=e821f3b';
-import { getTheme } from './store.js?v=e821f3b';
-import { syncStatusHtml } from './sync-ui.js?v=e821f3b';
-import { LOGO, badge, brand } from './ui/common.js?v=e821f3b';
-import { viewAuth, viewMfa, viewStructurePicker } from './views/auth.js?v=e821f3b';
-import { viewBank } from './views/bank.js?v=e821f3b';
-import { viewClosing } from './views/closing.js?v=e821f3b';
-import { viewCompta } from './views/compta.js?v=e821f3b';
-import { viewExpenses } from './views/expenses.js?v=e821f3b';
-import { viewHome } from './views/home.js?v=e821f3b';
-import { viewUrssaf } from './views/micro.js?v=e821f3b';
-import { viewOnboarding } from './views/onboarding.js?v=e821f3b';
-import { runRecurring, viewSales } from './views/sales.js?v=e821f3b';
-import { viewSettings } from './views/settings.js?v=e821f3b';
-import { viewClients } from './views/clients.js?v=e821f3b';
-import { viewPilotage } from './views/pilotage.js?v=e821f3b';
-import { viewVat } from './views/vat.js?v=e821f3b';
-import { viewArticles } from './views/articles.js?v=e821f3b';
-import { commerceEnabled } from './commerce/data.js?v=e821f3b';
-import { access, canRoute, isOperator } from './platform.js?v=e821f3b';
-import { viewPlatform } from './views/platform.js?v=e821f3b';
+import { html, raw } from './html.js?v=d415f7a';
+import { ICONS } from './icons.js?v=d415f7a';
+import { featureBySlug, featureSlug, features, loadFeatures, viewFeature, viewLanding } from './site/landing.js?v=d415f7a';
+import { cloudState, eur, frDate, ui, ws } from './state.js?v=d415f7a';
+import { getTheme } from './store.js?v=d415f7a';
+import { syncStatusHtml } from './sync-ui.js?v=d415f7a';
+import { LOGO, badge, brand } from './ui/common.js?v=d415f7a';
+import { viewAuth, viewMfa, viewStructurePicker } from './views/auth.js?v=d415f7a';
+import { viewBank } from './views/bank.js?v=d415f7a';
+import { viewClosing } from './views/closing.js?v=d415f7a';
+import { viewCompta } from './views/compta.js?v=d415f7a';
+import { viewExpenses } from './views/expenses.js?v=d415f7a';
+import { viewHome } from './views/home.js?v=d415f7a';
+import { viewUrssaf } from './views/micro.js?v=d415f7a';
+import { viewOnboarding } from './views/onboarding.js?v=d415f7a';
+import { runRecurring, viewSales } from './views/sales.js?v=d415f7a';
+import { viewSettings } from './views/settings.js?v=d415f7a';
+import { viewClients } from './views/clients.js?v=d415f7a';
+import { viewPilotage } from './views/pilotage.js?v=d415f7a';
+import { viewVat } from './views/vat.js?v=d415f7a';
+import { viewArticles } from './views/articles.js?v=d415f7a';
+import { commerceEnabled } from './commerce/data.js?v=d415f7a';
+import { access, canRoute, isOperator } from './platform.js?v=d415f7a';
+import { viewPlatform } from './views/platform.js?v=d415f7a';
 
 // ------------------------------------------------------------------ rendu général
 

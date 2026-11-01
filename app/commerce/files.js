@@ -4,14 +4,14 @@
  * de grille), écriture du fichier à réimporter dans la caisse. SheetJS n'est chargé qu'ici.
  */
 
-import { pdfToRows } from '../../core/commerce/pdf-table.js?v=e821f3b';
+import { pdfToRows } from '../../core/commerce/pdf-table.js?v=d415f7a';
 
 let xlsx = null;
-const lib = async () => (xlsx ||= await import('../vendor/xlsx.js?v=e821f3b'));
+const lib = async () => (xlsx ||= await import('../vendor/xlsx.js?v=d415f7a'));
 
 /** Grille en PDF : texte des pages, mis en tableau par core/commerce/pdf-table.js. pdf.js n'est chargé qu'ici. */
 async function readPdf(file) {
-  const pdfjs = await import('../vendor/pdfjs/pdf.min.js?v=e821f3b');
+  const pdfjs = await import('../vendor/pdfjs/pdf.min.js?v=d415f7a');
   pdfjs.GlobalWorkerOptions.workerSrc = new URL('../vendor/pdfjs/pdf.worker.min.js', import.meta.url).href;
   const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
   const pages = [];
@@ -41,6 +41,16 @@ export async function sha256Hex(file) {
  * Télécharge un tableau en .xls (format Excel 97, celui que Kezia lit et produit ; onglet « A »
  * comme son export Articles).
  */
+/** Télécharge un objet en fichier JSON (copie des données du module). */
+export function downloadJson(data, fileName) {
+  const url = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: fileName });
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 export async function downloadXls(rows, fileName, sheetName = 'A') {
   const X = await lib();
   const wb = X.utils.book_new();

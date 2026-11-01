@@ -2,12 +2,12 @@
  * Entreprise de démonstration.
  */
 
-import { parseBankCsv } from '../core/bank.js?v=e821f3b';
-import { Workspace } from '../core/workspace.js?v=e821f3b';
-import { vatNumberFromSiren } from '../core/company.js?v=e821f3b';
-import { render } from './render.js?v=e821f3b';
-import { frDate, setWs, today, ui, ws } from './state.js?v=e821f3b';
-import { save, toast } from './store.js?v=e821f3b';
+import { parseBankCsv } from '../core/bank.js?v=d415f7a';
+import { Workspace } from '../core/workspace.js?v=d415f7a';
+import { vatNumberFromSiren } from '../core/company.js?v=d415f7a';
+import { render } from './render.js?v=d415f7a';
+import { frDate, setWs, today, ui, ws } from './state.js?v=d415f7a';
+import { save, toast } from './store.js?v=d415f7a';
 
 // ------------------------------------------------------------------ démonstration
 

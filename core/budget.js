@@ -3,7 +3,7 @@
  * comparé au réalisé du grand livre et à ce qui était prévu à date (budget au prorata des jours écoulés).
  */
 
-import { divRound, sum } from './money.js?v=e821f3b';
+import { divRound, sum } from './money.js?v=d415f7a';
 
 /** Rubriques du budget : comptes du compte de résultat regroupés en langage courant. */
 export const BUDGET_LINES = [

@@ -8,7 +8,7 @@
  * L'EAN est la clé pivot ; la référence fournisseur sert quand l'EAN manque.
  */
 
-import { normalizeEan, isValidEan, eanDigits } from './ean.js?v=e821f3b';
+import { normalizeEan, isValidEan, eanDigits } from './ean.js?v=d415f7a';
 
 export class SheetError extends Error {}
 

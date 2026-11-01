@@ -3,7 +3,7 @@
  * Méthodes installées sur Workspace.prototype (voir core/workspace.js).
  */
 
-import { sum } from '../money.js?v=e821f3b';
+import { sum } from '../money.js?v=d415f7a';
 import {
   allocationEntry,
   balanceSheet,
@@ -16,9 +16,9 @@ import {
   inventoryEntry,
   nextYearOpening,
   resultEntry,
-} from '../closing.js?v=e821f3b';
-import { nextFiscalYear } from '../dates.js?v=e821f3b';
-import { Workspace } from '../workspace.js?v=e821f3b';
+} from '../closing.js?v=d415f7a';
+import { nextFiscalYear } from '../dates.js?v=d415f7a';
+import { Workspace } from '../workspace.js?v=d415f7a';
 
 export const closingMethods = {
   addInventory(item) {

@@ -2,13 +2,13 @@
  * Écran « expenses ».
  */
 
-import { purchaseLinesFrom } from '../../core/einvoice-in.js?v=e821f3b';
-import * as cloud from '../cloud.js?v=e821f3b';
-import { render } from '../render.js?v=e821f3b';
-import { eur, ui, ws } from '../state.js?v=e821f3b';
-import { save, toast } from '../store.js?v=e821f3b';
-import { attachReceipt } from '../views/expenses.js?v=e821f3b';
-import { saveNexusRhImport } from '../views/nexusrh-import.js?v=e821f3b';
+import { purchaseLinesFrom } from '../../core/einvoice-in.js?v=d415f7a';
+import * as cloud from '../cloud.js?v=d415f7a';
+import { render } from '../render.js?v=d415f7a';
+import { eur, ui, ws } from '../state.js?v=d415f7a';
+import { save, toast } from '../store.js?v=d415f7a';
+import { attachReceipt } from '../views/expenses.js?v=d415f7a';
+import { saveNexusRhImport } from '../views/nexusrh-import.js?v=d415f7a';
 
 /** Actions « expenses » : data-action → fonction. */
 export const actionsTable = {

@@ -6,9 +6,9 @@
  * valide à la main ; un ancien article peut correspondre à plusieurs articles (une base par teinte).
  */
 
-import { divRound } from '../money.js?v=e821f3b';
-import { cellNumber, fold, toCents } from './sheet.js?v=e821f3b';
-import { purchaseOf } from './articles.js?v=e821f3b';
+import { divRound } from '../money.js?v=d415f7a';
+import { cellNumber, fold, toCents } from './sheet.js?v=d415f7a';
+import { purchaseOf } from './articles.js?v=d415f7a';
 
 export const LEVELS = {
   A: 'Sûr',
@@ -131,24 +131,30 @@ export function matchLegacy(legacy, articles, { designations = new Map() } = {})
           .replace(/^0+/, ''),
       )
       .filter((r) => r.length >= 4);
+    const gridLabel = designations.get(a.ean) || '';
+    const t1 = tokens(a.label);
+    const t2 = tokens(gridLabel);
     const viaRef = refs.map((r) => byRef.get(r)).find(Boolean);
     if (viaRef) {
       const ref = refs.find((r) => byRef.get(r) === viaRef);
+      // Même référence mais libellés sans rapport (« CIMENT PROMPT » contre « MANCHON… Réf ROT25110 ») :
+      // la référence est sans doute mal saisie dans la caisse. À vérifier, pas « sûr ».
+      const words = Math.max(jaccard(t1, viaRef.toks), jaccard(t2, viaRef.toks));
+      const sure = words >= 0.1; // au moins un mot significatif en commun
       out.push({
         articleId: a.id,
         code: viaRef.code,
         label: viaRef.label,
         priceHt: viaRef.priceHt,
-        score: 1.2,
-        level: 'A',
+        score: sure ? 1.2 : 0.6,
+        level: sure ? 'A' : 'C',
         method: 'référence fournisseur',
-        why: `La référence fournisseur ${ref} est écrite dans le libellé de l’ancien logiciel : correspondance certaine.`,
+        why: sure
+          ? `La référence fournisseur ${ref} est écrite dans le libellé de l’ancien logiciel, et les libellés concordent : correspondance certaine.`
+          : `Même référence fournisseur (${ref}), mais les libellés n’ont presque rien en commun (${Math.round(words * 100)} % des mots) : la référence est peut-être mal saisie dans la caisse. À vérifier.`,
       });
       continue;
     }
-    const gridLabel = designations.get(a.ean) || '';
-    const t1 = tokens(a.label);
-    const t2 = tokens(gridLabel);
     const sizes = sizesOf(a.label).size ? sizesOf(a.label) : sizesOf(gridLabel);
     const colors = new Set([...t1, ...t2].filter((t) => COLORS.has(t)));
     const purchase = purchaseOf(a);

@@ -4,7 +4,7 @@
  * proposée ; elle redevient facturable si le brouillon est supprimé.
  */
 
-import { divRound, sum } from './money.js?v=e821f3b';
+import { divRound, sum } from './money.js?v=d415f7a';
 
 export class TimeError extends Error {}
 
