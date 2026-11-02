@@ -6,7 +6,7 @@
  * recherche de l'écran Articles, sans passer par ce module.
  */
 
-import { normalizeEan } from '../../core/commerce/ean.js?v=269c883';
+import { normalizeEan } from '../../core/commerce/ean.js?v=17f2ba9';
 
 let open = null;
 
@@ -24,7 +24,7 @@ async function nativeDetector() {
 }
 
 async function zxingDecoder() {
-  const Z = await import('../vendor/zxing.js?v=269c883');
+  const Z = await import('../vendor/zxing.js?v=17f2ba9');
   const reader = new Z.MultiFormatReader();
   const hints = new Map([
     [

@@ -4,11 +4,11 @@
  * Administration). Le rôle Administrateur a tout, ne se modifie pas, et l'organisation en garde toujours un.
  */
 
-import { LEVELS, MODULES, SPACES, levelOf } from '../../core/platform.js?v=269c883';
-import { field, html, opt, raw } from '../html.js?v=269c883';
-import { canManageUsers, enabledModules, listMembers, listRoles } from '../platform.js?v=269c883';
-import { cloudState, frDate, ui } from '../state.js?v=269c883';
-import { badge } from '../ui/common.js?v=269c883';
+import { LEVELS, MODULES, SPACES, levelOf } from '../../core/platform.js?v=17f2ba9';
+import { field, html, opt, raw } from '../html.js?v=17f2ba9';
+import { canManageUsers, enabledModules, listMembers, listRoles } from '../platform.js?v=17f2ba9';
+import { cloudState, frDate, ui } from '../state.js?v=17f2ba9';
+import { badge } from '../ui/common.js?v=17f2ba9';
 
 const BASE_LABEL = { dirigeant: 'Dirigeant', collaborateur: 'Collaborateur', expert: 'Expert-comptable' };
 const STATUS = { active: ['Actif', 'success'], invited: ['Invité', 'warning'], suspended: ['Suspendu', 'muted'] };
@@ -52,7 +52,7 @@ export function platformData() {
       .catch((err) => Object.assign(st, { members: [], roles: [], error: err.message }))
       .finally(() => {
         st.loading = null;
-        import('../render.js?v=269c883').then((m) => m.render());
+        import('../render.js?v=17f2ba9').then((m) => m.render());
       });
   }
   return st;

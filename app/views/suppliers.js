@@ -4,15 +4,16 @@
  * rapprochement avec l'ancien logiciel). Réservé au dirigeant et à l'expert-comptable.
  */
 
-import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=269c883';
-import { LEVELS } from '../../core/commerce/legacy.js?v=269c883';
-import { SUPPLIER_ROLES, comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=269c883';
-import { fold } from '../../core/commerce/sheet.js?v=269c883';
-import { commerce } from '../commerce/data.js?v=269c883';
-import { field, html, opt, raw } from '../html.js?v=269c883';
-import { eur, frDate, ui } from '../state.js?v=269c883';
-import { badge, icon } from '../ui/common.js?v=269c883';
-import { commerceUi, fmtBp, supplierName } from './articles.js?v=269c883';
+import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=17f2ba9';
+import { LEVELS } from '../../core/commerce/legacy.js?v=17f2ba9';
+import { SUPPLIER_ROLES, comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=17f2ba9';
+import { fold } from '../../core/commerce/sheet.js?v=17f2ba9';
+import { commerce } from '../commerce/data.js?v=17f2ba9';
+import { checksCard } from './checks.js?v=17f2ba9';
+import { field, html, opt, raw } from '../html.js?v=17f2ba9';
+import { eur, frDate, ui } from '../state.js?v=17f2ba9';
+import { badge, icon } from '../ui/common.js?v=17f2ba9';
+import { commerceUi, fmtBp, supplierName } from './articles.js?v=17f2ba9';
 
 const articlesOf = (id) => commerce.articles.filter((a) => (a.suppliers || []).some((s) => s.supplierId === id));
 const siteLabel = (u) => u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
@@ -385,7 +386,7 @@ export function cashRegisterTab() {
       <input type="file" accept=".xls,.xlsx,.csv" data-action="commerce-legacy-file" hidden aria-label="Export de l'ancien logiciel" />
       ${lg ? legacyBlock(lg) : ''}
     </div>
-    ${snapshotCard()}`;
+    ${checksCard()} ${snapshotCard()}`;
 }
 
 function legacyBlock(lg) {

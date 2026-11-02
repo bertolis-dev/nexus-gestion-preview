@@ -4,23 +4,23 @@
  * les fichiers du module ont leurs propres écouteurs (data-form et data-action « commerce-… »).
  */
 
-import { applyPricelist, articleFromLine, eanIndex, withCode } from '../../core/commerce/articles.js?v=269c883';
-import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=269c883';
-import { eanCandidates } from '../../core/commerce/ean.js?v=269c883';
-import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=269c883';
-import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=269c883';
-import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=269c883';
-import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=269c883';
-import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=269c883';
-import { buildSnapshot, parseSnapshot } from '../../core/commerce/snapshot.js?v=269c883';
-import { parseEuros } from '../../core/money.js?v=269c883';
-import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=269c883';
-import { downloadJson, downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=269c883';
-import { openScanner } from '../commerce/scanner.js?v=269c883';
-import { render } from '../render.js?v=269c883';
-import { newId, today, ui, ws } from '../state.js?v=269c883';
-import { save, toast } from '../store.js?v=269c883';
-import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=269c883';
+import { applyPricelist, articleFromLine, eanIndex, withCode } from '../../core/commerce/articles.js?v=17f2ba9';
+import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=17f2ba9';
+import { eanCandidates } from '../../core/commerce/ean.js?v=17f2ba9';
+import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=17f2ba9';
+import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=17f2ba9';
+import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=17f2ba9';
+import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=17f2ba9';
+import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=17f2ba9';
+import { buildSnapshot, parseSnapshot } from '../../core/commerce/snapshot.js?v=17f2ba9';
+import { parseEuros } from '../../core/money.js?v=17f2ba9';
+import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=17f2ba9';
+import { downloadJson, downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=17f2ba9';
+import { openScanner } from '../commerce/scanner.js?v=17f2ba9';
+import { render } from '../render.js?v=17f2ba9';
+import { newId, today, ui, ws } from '../state.js?v=17f2ba9';
+import { save, toast } from '../store.js?v=17f2ba9';
+import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=17f2ba9';
 
 const fail = (err) => toast(err?.message || String(err), true);
 

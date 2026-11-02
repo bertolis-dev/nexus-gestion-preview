@@ -8,9 +8,9 @@
  * gère pas ; seuls les champs tenus par Nexus sont remplacés.
  */
 
-import { eanCandidates, normalizeEan } from './ean.js?v=269c883';
-import { fold } from './sheet.js?v=269c883';
-import { codeOf } from './articles.js?v=269c883';
+import { eanCandidates, eanDigits, normalizeEan, resolveTruncated } from './ean.js?v=17f2ba9';
+import { fold } from './sheet.js?v=17f2ba9';
+import { codeOf } from './articles.js?v=17f2ba9';
 
 export const KEZIA_COLUMNS = [
   'IDART', 'NOM_FOURNISSEUR', 'REFERENCE_FOURNISSEUR', 'EAN', 'DEF', 'RAYON', 'FAMILLE', 'SS_FAMILLE', 'PMPA', 'TYP_FRAIS', 'FRAIS', 'PRIX_TTC',
@@ -51,6 +51,7 @@ export function parseKeziaExport(rows) {
   const col = Object.fromEntries(header.map((h, i) => [h, i]));
   const byId = new Map();
   const issues = [];
+  const resolved = resolveTruncated(rows.slice(1).map((r) => r?.[col.EAN]));
   for (let i = 1; i < rows.length; i++) {
     const r = rows[i];
     if (!r || !text(r[col.IDART])) continue;
@@ -60,7 +61,8 @@ export function parseKeziaExport(rows) {
       const v = r[j];
       if (KEZIA_COLUMNS.includes(h) && !EMPTY.has(text(v))) raw[h] = typeof v === 'number' ? v : text(v);
     });
-    const e = normalizeEan(r[col.EAN]);
+    const sure = resolved.get(eanDigits(r[col.EAN]));
+    const e = sure ? { ean: sure, repaired: true } : normalizeEan(r[col.EAN]);
     if (e.repaired) issues.push({ idart, label: text(r[col.DEF]), code: 'ean-repare', text: `EAN tronqué ${text(r[col.EAN])} : clé recalculée (${e.ean})` });
     if (e.invalid && text(r[col.EAN]))
       issues.push({ idart, label: text(r[col.DEF]), code: 'ean-illisible', text: `Code « ${text(r[col.EAN])} » : pas un EAN` });
@@ -83,8 +85,9 @@ export function parseKeziaExport(rows) {
       };
       byId.set(idart, a);
     }
-    // Code à 12 chiffres ambigu : les deux formes sont gardées, la grille du fournisseur tranchera.
-    for (const c of e.ean ? [e.ean, ...eanCandidates(r[col.EAN])] : []) if (!a.eans.includes(c)) a.eans.push(c);
+    // Code à 12 chiffres ambigu : les deux formes sont gardées, la grille du fournisseur tranchera
+    // (sauf si les autres codes du même fabricant ont déjà tranché : resolveTruncated).
+    for (const c of e.ean ? [e.ean, ...(sure ? [] : eanCandidates(r[col.EAN]))] : []) if (!a.eans.includes(c)) a.eans.push(c);
     const supplierName = text(r[col.NOM_FOURNISSEUR]);
     if (supplierName)
       a.suppliers.push({

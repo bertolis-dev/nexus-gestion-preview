@@ -3,20 +3,20 @@
  */
 
 /** Table de toutes les actions (clics sur un élément data-action), réparties par domaine. */
-import { actionsTable as site } from './site.js?v=269c883';
-import { actionsTable as shell } from './shell.js?v=269c883';
-import { actionsTable as sales } from './sales.js?v=269c883';
-import { actionsTable as expenses } from './expenses.js?v=269c883';
-import { actionsTable as bank } from './bank.js?v=269c883';
-import { actionsTable as compta } from './compta.js?v=269c883';
-import { actionsTable as vat } from './vat.js?v=269c883';
-import { actionsTable as closing } from './closing.js?v=269c883';
-import { actionsTable as micro } from './micro.js?v=269c883';
-import { actionsTable as settings } from './settings.js?v=269c883';
-import { actionsTable as clients } from './clients.js?v=269c883';
-import { actionsTable as pilotage } from './pilotage.js?v=269c883';
-import { actionsTable as commerce } from './commerce.js?v=269c883';
-import { actionsTable as platform } from './platform.js?v=269c883';
+import { actionsTable as site } from './site.js?v=17f2ba9';
+import { actionsTable as shell } from './shell.js?v=17f2ba9';
+import { actionsTable as sales } from './sales.js?v=17f2ba9';
+import { actionsTable as expenses } from './expenses.js?v=17f2ba9';
+import { actionsTable as bank } from './bank.js?v=17f2ba9';
+import { actionsTable as compta } from './compta.js?v=17f2ba9';
+import { actionsTable as vat } from './vat.js?v=17f2ba9';
+import { actionsTable as closing } from './closing.js?v=17f2ba9';
+import { actionsTable as micro } from './micro.js?v=17f2ba9';
+import { actionsTable as settings } from './settings.js?v=17f2ba9';
+import { actionsTable as clients } from './clients.js?v=17f2ba9';
+import { actionsTable as pilotage } from './pilotage.js?v=17f2ba9';
+import { actionsTable as commerce } from './commerce.js?v=17f2ba9';
+import { actionsTable as platform } from './platform.js?v=17f2ba9';
 
 const ACTIONS = {
   ...site,

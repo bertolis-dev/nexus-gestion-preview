@@ -57,5 +57,16 @@ export function eanCandidates(value) {
   return [...new Set([isValidEan(d) ? `0${d}` : '', d + checkDigit(d)].filter(Boolean))];
 }
 
+/**
+ * Codes à 12 chiffres d'un même fichier : un code ambigu (UPC « valide ») est lu comme un EAN-13
+ * tronqué quand d'autres codes du fichier, tronqués sans aucun doute, commencent par les mêmes
+ * 9 chiffres (même fabricant). Rend Map(chiffres → EAN retenu), pour les seuls codes ainsi tranchés.
+ */
+export function resolveTruncated(values) {
+  const digits = [...new Set(values.map(eanDigits).filter((d) => d.length === 12))];
+  const truncated = new Set(digits.filter((d) => !isValidEan(d)).map((d) => d.slice(0, 9)));
+  return new Map(digits.filter((d) => isValidEan(d) && truncated.has(d.slice(0, 9))).map((d) => [d, d + checkDigit(d)]));
+}
+
 /** Raccourci : EAN normalisé ou chaîne vide. */
 export const ean = (value) => normalizeEan(value).ean;

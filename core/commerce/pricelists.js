@@ -4,8 +4,8 @@
  * voir ce qui a changé et à quelle date. La base le garantit aussi (trigger, migration 0035).
  */
 
-import { isCalendarDate } from '../dates.js?v=269c883';
-import { fold, validateProfile } from './sheet.js?v=269c883';
+import { isCalendarDate } from '../dates.js?v=17f2ba9';
+import { fold, validateProfile } from './sheet.js?v=17f2ba9';
 
 export class PricelistError extends Error {}
 
