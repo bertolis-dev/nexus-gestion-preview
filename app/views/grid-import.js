@@ -5,14 +5,14 @@
  * EAN ou référence, comparatif avec la grille précédente) puis validation. L'EAN est la clé pivot.
  */
 
-import { matchLines } from '../../core/commerce/articles.js?v=a619ec1';
-import { FIELDS, columnLabels } from '../../core/commerce/sheet.js?v=a619ec1';
-import { comparePricelists, supplierPricelists } from '../../core/commerce/pricelists.js?v=a619ec1';
-import { commerce } from '../commerce/data.js?v=a619ec1';
-import { field, html, opt, raw } from '../html.js?v=a619ec1';
-import { eur, frDate, today } from '../state.js?v=a619ec1';
-import { badge, icon } from '../ui/common.js?v=a619ec1';
-import { commerceUi, fmtBp } from './articles.js?v=a619ec1';
+import { matchLines } from '../../core/commerce/articles.js?v=3bfbbd4';
+import { FIELDS, columnLabels } from '../../core/commerce/sheet.js?v=3bfbbd4';
+import { comparePricelists, supplierPricelists } from '../../core/commerce/pricelists.js?v=3bfbbd4';
+import { commerce } from '../commerce/data.js?v=3bfbbd4';
+import { field, html, opt, raw } from '../html.js?v=3bfbbd4';
+import { eur, frDate, today } from '../state.js?v=3bfbbd4';
+import { badge, icon } from '../ui/common.js?v=3bfbbd4';
+import { commerceUi, fmtBp } from './articles.js?v=3bfbbd4';
 
 const letter = (i) => {
   let s = '';
@@ -134,6 +134,20 @@ function stepColumns(w) {
       ${FIELDS.filter((f) => f.key !== 'designation').map((f) => field(f.label, columnSelect(f.key, labels, sample, C[f.key])))}
       ${[0, 1, 2].map((i) => field(i ? `Désignation (suite ${i})` : 'Désignation', columnSelect(`designation${i}`, labels, sample, des[i])))}
     </div>
+    ${
+      w.profile.tiers?.length
+        ? html`<fieldset class="choice-group">
+            <legend>Prix par quantité trouvés dans la grille</legend>
+            ${w.profile.tiers.map(
+              (t) =>
+                html`<label
+                  ><input type="checkbox" name="tier${t.col}" checked /> Colonne ${letter(t.col)} « ${labels[t.col]} » : dès ${t.qty}
+                  ${{ piece: 'unités', colis: 'colis', palette: 'palettes' }[t.per]}</label
+                >`,
+            )}
+          </fieldset>`
+        : ''
+    }
     ${choiceGroup(w)}
     ${
       C.previousNetPrice !== undefined || w.previousDate

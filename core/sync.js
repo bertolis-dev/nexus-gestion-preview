@@ -592,5 +592,5 @@ export function refusedUpdate(op) {
     divergence: true,
   });
 }
-import { DEFAULT_BANK_ACCOUNT } from './bank.js?v=a619ec1';
-import { parisDateOf } from './dates.js?v=a619ec1';
+import { DEFAULT_BANK_ACCOUNT } from './bank.js?v=3bfbbd4';
+import { parisDateOf } from './dates.js?v=3bfbbd4';

@@ -8,7 +8,7 @@
  * L'EAN est la clé pivot ; la référence fournisseur sert quand l'EAN manque.
  */
 
-import { normalizeEan, isValidEan, eanDigits } from './ean.js?v=a619ec1';
+import { normalizeEan, isValidEan, eanDigits } from './ean.js?v=3bfbbd4';
 
 export class SheetError extends Error {}
 
@@ -33,6 +33,12 @@ export const FIELDS = [
   },
   { key: 'unit', label: 'Unité', words: ['unite', 'unite facturation', 'unite prix tarif'], exact: true },
   { key: 'packSize', label: 'Colisage', words: ['colisage', 'pcb', 'upc', 'colisage par'] },
+  {
+    key: 'palletSize',
+    label: 'Quantité par palette',
+    words: ['palette', 'qte palette', 'par palette', 'quantite palette'],
+    not: ['prix', 'pu', 'tarif', 'mini'],
+  },
   { key: 'grossPrice', label: 'Prix brut HT', words: ['tg piece', 'prix brut', 'pvc brut', 'tarif general', 'tarif ht', 'tarif pro'], not: ['net'] },
   { key: 'discount', label: 'Remise (%)', words: ['total remises', 'remise', 'remise achat'] },
   {
@@ -88,6 +94,22 @@ export function parseSize(v, unitCell) {
   if (unit === 'g' || unit === 'gr') [qty, unit] = [qty / 1000, 'kg'];
   if (unit === 'k' || unit === 'kgs') unit = 'kg';
   return { qty: Math.round(qty * 1000) / 1000, unit };
+}
+
+/**
+ * Palier lu dans un intitulé de colonne : « Prix unitaire franco 4P » → 4 palettes, « Prix par 10 »
+ * → 10 unités, « Tarif dès 3 colis » → 3 colis. null si l'intitulé n'est pas un prix par quantité.
+ */
+export function tierFromLabel(label) {
+  const l = fold(label);
+  if (!/(^| )(prix|tarif|pu|net|franco)( |$)/.test(l)) return null;
+  const m = /(?:^| )(?:franco|par|des|a partir de|mini|minimum|x)\s*(\d+)\s*(p|pal|palettes?|colis|cartons?|u|un|pcs|pieces?|unites?)?(?: |$)/.exec(l);
+  if (!m) return null;
+  const qty = Number(m[1]);
+  if (!(qty > 0 && qty <= 100000)) return null;
+  const word = m[2] || '';
+  const per = /^(p|pal|palettes?)$/.test(word) ? 'palette' : /^(colis|cartons?)$/.test(word) ? 'colis' : 'piece';
+  return { qty, per };
 }
 
 const isEanCell = (v) => isValidEan(eanDigits(v)) || (eanDigits(v).length === 12 && /^[0-9]/.test(eanDigits(v)));
@@ -175,7 +197,7 @@ export function detectProfile(workbook, sheetName = suggestSheet(workbook)) {
   if (eanCol !== null) columns.ean = eanCol;
   for (const f of FIELDS) {
     if (f.key === 'ean' || !f.words.length) continue;
-    const priceLike = ['grossPrice', 'netPrice', 'retailPrice', 'ecoTax', 'discount', 'packSize'].includes(f.key);
+    const priceLike = ['grossPrice', 'netPrice', 'retailPrice', 'ecoTax', 'discount', 'packSize', 'palletSize'].includes(f.key);
     const ranked = labels
       .map((l, c) => ({ c, s: scoreLabel(l, f) }))
       .filter((x) => x.s > 0 && !taken.has(x.c) && (!priceLike || numeric[x.c]))
@@ -217,7 +239,14 @@ export function detectProfile(workbook, sheetName = suggestSheet(workbook)) {
   }
   // Prix exprimés au litre ou au kilo (« Tarif pro au L ») : multipliés par la contenance.
   const perUnit = ['netPrice', 'grossPrice'].some((k) => columns[k] !== undefined && PER_UNIT.some((w) => hasWord(fold(labels[columns[k]]), w)));
+  // Prix par quantité (« Prix unitaire franco 4P » : dès 4 palettes) : un palier par colonne.
+  const tiers = labels
+    // Colonne souvent vide (le palier n'existe que pour les grands formats) : un prix lu suffit.
+    .map((l, col) => ({ col, t: !taken.has(col) && sample.some((r) => cellNumber(r?.[col]) !== null) ? tierFromLabel(l) : null }))
+    .filter((x) => x.t)
+    .map(({ col, t }) => ({ col, ...t }));
   const profile = { sheet: sheetName, firstRow, columns, priceBasis: perUnit ? 'unit' : 'piece', labels };
+  if (tiers.length) profile.tiers = tiers;
   const join = columns.retailPrice === undefined ? detectJoin(workbook, sheetName) : null;
   if (join) profile.join = join;
   return profile;
@@ -236,6 +265,10 @@ export function validateProfile(p) {
   if (cols.ean === undefined && cols.ref === undefined) throw new SheetError('Indiquez la colonne de l’EAN (ou, à défaut, de la référence fournisseur).');
   if (cols.netPrice === undefined && cols.grossPrice === undefined) throw new SheetError('Indiquez au moins une colonne de prix (net ou brut).');
   if (!['piece', 'unit'].includes(p.priceBasis || 'piece')) throw new SheetError('Base de prix invalide.');
+  for (const t of p.tiers || []) {
+    if (!Number.isInteger(t.col) || t.col < 0 || t.col > 500 || !Number.isInteger(t.qty) || t.qty < 1 || !['piece', 'colis', 'palette'].includes(t.per))
+      throw new SheetError('Palier de prix invalide.');
+  }
   if (p.join) {
     if (typeof p.join.sheet !== 'string' || !Number.isInteger(p.join.ean) || !p.join.columns) throw new SheetError('Onglet joint incomplet.');
   }
@@ -246,9 +279,7 @@ export function validateProfile(p) {
 export function profileSignature(workbook, profile) {
   const { rows } = sheetByName(workbook, profile.sheet);
   const labels = columnLabels(rows, profile.firstRow);
-  const used = Object.values(profile.columns || {})
-    .flat()
-    .sort((a, b) => a - b);
+  const used = [...Object.values(profile.columns || {}), ...(profile.tiers || []).map((t) => t.col)].flat().sort((a, b) => a - b);
   return used.map((c) => `${c}:${fold(labels[c])}`).join('|');
 }
 
@@ -296,10 +327,11 @@ export function applyProfile(workbook, profile) {
     const size = parseSize(at(r, 'size'), at(r, 'unit'));
     // Prix au litre sans contenance lisible (accessoire vendu à la pièce, au m²) : prix pris tel quel.
     const factor = profile.priceBasis === 'unit' && size.qty ? size.qty : 1;
-    const price = (k) => {
-      const n = cellNumber(at(r, k));
+    const priceIn = (v) => {
+      const n = cellNumber(v);
       return n === null ? null : factor ? toCents(n * factor) : null;
     };
+    const price = (k) => priceIn(at(r, k));
     let netPrice = price('netPrice');
     const grossPrice = price('grossPrice');
     const discount = cellNumber(at(r, 'discount'));
@@ -326,6 +358,8 @@ export function applyProfile(workbook, profile) {
       size: size.qty,
       unit: size.unit,
       packSize: cellNumber(at(r, 'packSize')),
+      palletSize: cellNumber(at(r, 'palletSize')),
+      tiers: (profile.tiers || []).map((t) => ({ qty: t.qty, per: t.per, netPrice: priceIn(r[t.col]) })).filter((t) => t.netPrice !== null && t.netPrice >= 0),
       grossPrice,
       discountBp,
       netPrice,

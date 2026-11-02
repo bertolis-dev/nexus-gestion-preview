@@ -6,9 +6,9 @@
  * valide à la main ; un ancien article peut correspondre à plusieurs articles (une base par teinte).
  */
 
-import { divRound } from '../money.js?v=a619ec1';
-import { cellNumber, fold, toCents } from './sheet.js?v=a619ec1';
-import { purchaseOf } from './articles.js?v=a619ec1';
+import { divRound } from '../money.js?v=3bfbbd4';
+import { cellNumber, fold, toCents } from './sheet.js?v=3bfbbd4';
+import { purchaseOf } from './articles.js?v=3bfbbd4';
 
 export const LEVELS = {
   A: 'Sûr',

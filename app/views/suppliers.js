@@ -4,16 +4,16 @@
  * rapprochement avec l'ancien logiciel). Réservé au dirigeant et à l'expert-comptable.
  */
 
-import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=a619ec1';
-import { LEVELS } from '../../core/commerce/legacy.js?v=a619ec1';
-import { SUPPLIER_ROLES, comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=a619ec1';
-import { fold } from '../../core/commerce/sheet.js?v=a619ec1';
-import { commerce } from '../commerce/data.js?v=a619ec1';
-import { checksCard } from './checks.js?v=a619ec1';
-import { field, html, opt, raw } from '../html.js?v=a619ec1';
-import { eur, frDate, ui } from '../state.js?v=a619ec1';
-import { badge, icon } from '../ui/common.js?v=a619ec1';
-import { commerceUi, fmtBp, supplierName } from './articles.js?v=a619ec1';
+import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=3bfbbd4';
+import { LEVELS } from '../../core/commerce/legacy.js?v=3bfbbd4';
+import { SUPPLIER_ROLES, comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=3bfbbd4';
+import { fold } from '../../core/commerce/sheet.js?v=3bfbbd4';
+import { commerce } from '../commerce/data.js?v=3bfbbd4';
+import { checksCard } from './checks.js?v=3bfbbd4';
+import { field, html, opt, raw } from '../html.js?v=3bfbbd4';
+import { eur, frDate, ui } from '../state.js?v=3bfbbd4';
+import { badge, icon } from '../ui/common.js?v=3bfbbd4';
+import { commerceUi, fmtBp, supplierName } from './articles.js?v=3bfbbd4';
 
 const articlesOf = (id) => commerce.articles.filter((a) => (a.suppliers || []).some((s) => s.supplierId === id));
 const siteLabel = (u) => u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];

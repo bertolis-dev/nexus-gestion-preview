@@ -4,10 +4,11 @@
  * prix de vente TTC (celui de l'étiquette et de la caisse), prix d'achat HT.
  */
 
-import { divRound } from '../money.js?v=a619ec1';
-import { eanCandidates, normalizeEan } from './ean.js?v=a619ec1';
-import { fold } from './sheet.js?v=a619ec1';
-import { lineKey } from './pricelists.js?v=a619ec1';
+import { divRound } from '../money.js?v=3bfbbd4';
+import { eanCandidates, normalizeEan } from './ean.js?v=3bfbbd4';
+import { fold } from './sheet.js?v=3bfbbd4';
+import { lineKey } from './pricelists.js?v=3bfbbd4';
+import { mergeGridTiers } from './tiers.js?v=3bfbbd4';
 
 export class ArticleError extends Error {}
 
@@ -18,6 +19,11 @@ const clean = (s, max) =>
     .replace(/\s+/g, ' ')
     .trim()
     .slice(0, max);
+const qty = (v, label) => {
+  if (v === null || v === undefined || v === '') return null;
+  if (!Number.isFinite(v) || v < 0 || v > 1e6) throw new ArticleError(`${label} illisible.`);
+  return v;
+};
 const cents = (v, label) => {
   if (v === null || v === undefined || v === '') return null;
   if (!Number.isSafeInteger(v) || v < 0) throw new ArticleError(`${label} illisible.`);
@@ -36,6 +42,10 @@ export function saveArticle(list = [], input, { newId, now = new Date() } = {}) 
   const prev = list.find((a) => a.id === input.id);
   const vat = input.vatRateBp ?? prev?.vatRateBp ?? 2000;
   if (!Number.isInteger(vat) || vat < 0 || vat > 10000) throw new ArticleError('Taux de TVA invalide.');
+  const min = input.stockMin !== undefined ? input.stockMin : prev?.stockMin;
+  const max = input.stockMax !== undefined ? input.stockMax : prev?.stockMax;
+  if (min !== null && min !== undefined && max !== null && max !== undefined && max < min)
+    throw new ArticleError('Le stock maximum est plus petit que le minimum.');
   const article = {
     ...(prev || {}),
     id: prev?.id || input.id || newId(),
@@ -44,6 +54,10 @@ export function saveArticle(list = [], input, { newId, now = new Date() } = {}) 
     codes: dedupeCodes(input.codes ?? prev?.codes ?? []),
     brand: clean(input.brand ?? prev?.brand, 80) || null,
     department: clean(input.department ?? prev?.department, 80) || null,
+    family: clean(input.family ?? prev?.family, 80) || null,
+    subFamily: clean(input.subFamily ?? prev?.subFamily, 80) || null,
+    colour: clean(input.colour ?? prev?.colour, 60) || null,
+    dimension: clean(input.dimension ?? prev?.dimension, 60) || null,
     size: input.size ?? prev?.size ?? null,
     unit: clean(input.unit ?? prev?.unit, 10) || null,
     vatRateBp: vat,
@@ -52,8 +66,9 @@ export function saveArticle(list = [], input, { newId, now = new Date() } = {}) 
     pmpa: cents(input.pmpa ?? prev?.pmpa ?? null, 'PMPA'),
     suppliers: input.suppliers ?? prev?.suppliers ?? [],
     stockTracked: Boolean(input.stockTracked ?? prev?.stockTracked),
-    stockMin: input.stockMin ?? prev?.stockMin ?? null,
-    stockMax: input.stockMax ?? prev?.stockMax ?? null,
+    stockMin: qty(input.stockMin !== undefined ? input.stockMin : prev?.stockMin, 'Stock minimum'),
+    stockMax: qty(input.stockMax !== undefined ? input.stockMax : prev?.stockMax, 'Stock maximum'),
+    reorderQty: qty(input.reorderQty !== undefined ? input.reorderQty : prev?.reorderQty, 'Quantité à commander'),
     active: input.active ?? prev?.active ?? true,
     updatedAt: now.toISOString(),
   };
@@ -183,6 +198,8 @@ export function applyPricelist(articles, pricelist, { newId } = {}) {
       netPrice: price ?? link.netPrice ?? null,
       grossPrice: line.grossPrice ?? null,
       packSize: line.packSize ?? link.packSize ?? null,
+      palletSize: line.palletSize ?? link.palletSize ?? null,
+      tiers: mergeGridTiers(link.tiers, line.tiers),
       pricelistId: pricelist.id,
     });
     const primary = (link.rank ?? 0) === Math.min(...links.map((s) => s.rank ?? 0));
@@ -230,7 +247,16 @@ export function articleFromLine(line, supplier, { newId, coefBp = supplier.defau
       purchasePrice: purchase,
       salePrice: purchase ? proposeSalePrice(purchase, coefBp, { vatRateBp, rounding }) : null,
       suppliers: [
-        { supplierId: supplier.id, ref: line.ref || null, netPrice: purchase, grossPrice: line.grossPrice ?? null, packSize: line.packSize ?? null, rank: 0 },
+        {
+          supplierId: supplier.id,
+          ref: line.ref || null,
+          netPrice: purchase,
+          grossPrice: line.grossPrice ?? null,
+          packSize: line.packSize ?? null,
+          palletSize: line.palletSize ?? null,
+          tiers: mergeGridTiers([], line.tiers),
+          rank: 0,
+        },
       ],
     },
     { newId, now },

@@ -4,16 +4,16 @@
  * prix proposés à valider. La fiche, les fournisseurs et l'assistant d'import sont dans leurs fichiers.
  */
 
-import { articleAlerts, margin, purchaseOf } from '../../core/commerce/articles.js?v=a619ec1';
-import { fold } from '../../core/commerce/sheet.js?v=a619ec1';
-import { stockLevels, stockSummary } from '../../core/commerce/stock.js?v=a619ec1';
-import { canDecide, canManage, commerce, loadCommerce } from '../commerce/data.js?v=a619ec1';
-import { html, opt, raw } from '../html.js?v=a619ec1';
-import { eur, frDate, ui } from '../state.js?v=a619ec1';
-import { badge, icon, viewHeader } from '../ui/common.js?v=a619ec1';
-import { articleCard } from './article-card.js?v=a619ec1';
-import { gridImport } from './grid-import.js?v=a619ec1';
-import { cashRegisterTab, supplierDetail, suppliersList } from './suppliers.js?v=a619ec1';
+import { articleAlerts, margin, purchaseOf } from '../../core/commerce/articles.js?v=3bfbbd4';
+import { fold } from '../../core/commerce/sheet.js?v=3bfbbd4';
+import { stockLevels, stockSummary } from '../../core/commerce/stock.js?v=3bfbbd4';
+import { canDecide, canManage, commerce, loadCommerce } from '../commerce/data.js?v=3bfbbd4';
+import { html, opt, raw } from '../html.js?v=3bfbbd4';
+import { eur, frDate, ui } from '../state.js?v=3bfbbd4';
+import { badge, icon, viewHeader } from '../ui/common.js?v=3bfbbd4';
+import { articleCard } from './article-card.js?v=3bfbbd4';
+import { gridImport } from './grid-import.js?v=3bfbbd4';
+import { cashRegisterTab, supplierDetail, suppliersList } from './suppliers.js?v=3bfbbd4';
 
 export const commerceUi = () =>
   (ui.commerce ||= { search: '', filter: '', supplier: '', limit: 100, mode: canManage() ? 'expert' : 'simple', wizard: null, compare: null, scanMiss: null });
@@ -54,7 +54,7 @@ function tabs(active) {
 
 export function viewArticles(arg = '') {
   if (!commerce.loaded) {
-    if (!commerce.loading && !commerce.error) loadCommerce().then(() => import('../render.js?v=a619ec1').then((m) => m.render()));
+    if (!commerce.loading && !commerce.error) loadCommerce().then(() => import('../render.js?v=3bfbbd4').then((m) => m.render()));
     return html`${viewHeader('Articles et stock', '')}
       <div class="card">
         ${

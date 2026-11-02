@@ -5,7 +5,7 @@
  * que la somme des trajets de l'année est toujours égale au barème appliqué au total.
  */
 
-import { divRound } from './money.js?v=a619ec1';
+import { divRound } from './money.js?v=3bfbbd4';
 
 /**
  * Barème des voitures, en millièmes d'euro par km : [jusqu'à 5 000 km, de 5 001 à 20 000 km (taux, fixe en

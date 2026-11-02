@@ -2,21 +2,21 @@
  * Écran « settings ».
  */
 
-import { field, html, opt, raw } from '../html.js?v=a619ec1';
-import { isMicro } from '../render.js?v=a619ec1';
-import { cloudState, eur, pct, ui, ws } from '../state.js?v=a619ec1';
-import { VAT_RATES_BP } from '../../core/invoices.js?v=a619ec1';
-import { ICONS } from '../icons.js?v=a619ec1';
-import { badge, viewHeader } from '../ui/common.js?v=a619ec1';
-import * as cloud from '../cloud.js?v=a619ec1';
-import { render } from '../render.js?v=a619ec1';
-import { microSettingsCard, openingPreview, securityCard } from './onboarding.js?v=a619ec1';
-import { modulesTab, rolesTab, usersTab } from './users.js?v=a619ec1';
-import { EXPENSE_CATEGORIES } from '../../core/pcg.js?v=a619ec1';
-import { normalizeIban } from '../../core/epc.js?v=a619ec1';
-import { stockPanel } from './pilotage.js?v=a619ec1';
-import { INCOME_CATEGORIES, OUTFLOW_CATEGORIES } from '../../core/workspace.js?v=a619ec1';
-import { DEFAULT_TEMPLATES, REMINDER_STEPS } from '../../core/reminders.js?v=a619ec1';
+import { field, html, opt, raw } from '../html.js?v=3bfbbd4';
+import { isMicro } from '../render.js?v=3bfbbd4';
+import { cloudState, eur, pct, ui, ws } from '../state.js?v=3bfbbd4';
+import { VAT_RATES_BP } from '../../core/invoices.js?v=3bfbbd4';
+import { ICONS } from '../icons.js?v=3bfbbd4';
+import { badge, viewHeader } from '../ui/common.js?v=3bfbbd4';
+import * as cloud from '../cloud.js?v=3bfbbd4';
+import { render } from '../render.js?v=3bfbbd4';
+import { microSettingsCard, openingPreview, securityCard } from './onboarding.js?v=3bfbbd4';
+import { modulesTab, rolesTab, usersTab } from './users.js?v=3bfbbd4';
+import { EXPENSE_CATEGORIES } from '../../core/pcg.js?v=3bfbbd4';
+import { normalizeIban } from '../../core/epc.js?v=3bfbbd4';
+import { stockPanel } from './pilotage.js?v=3bfbbd4';
+import { INCOME_CATEGORIES, OUTFLOW_CATEGORIES } from '../../core/workspace.js?v=3bfbbd4';
+import { DEFAULT_TEMPLATES, REMINDER_STEPS } from '../../core/reminders.js?v=3bfbbd4';
 
 // ------------------------------------------------------------------ paramètres
 

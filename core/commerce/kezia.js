@@ -8,9 +8,9 @@
  * gère pas ; seuls les champs tenus par Nexus sont remplacés.
  */
 
-import { eanCandidates, eanDigits, normalizeEan, resolveTruncated } from './ean.js?v=a619ec1';
-import { fold } from './sheet.js?v=a619ec1';
-import { codeOf } from './articles.js?v=a619ec1';
+import { eanCandidates, eanDigits, normalizeEan, resolveTruncated } from './ean.js?v=3bfbbd4';
+import { fold } from './sheet.js?v=3bfbbd4';
+import { codeOf } from './articles.js?v=3bfbbd4';
 
 export const KEZIA_COLUMNS = [
   'IDART', 'NOM_FOURNISSEUR', 'REFERENCE_FOURNISSEUR', 'EAN', 'DEF', 'RAYON', 'FAMILLE', 'SS_FAMILLE', 'PMPA', 'TYP_FRAIS', 'FRAIS', 'PRIX_TTC',
@@ -74,6 +74,11 @@ export function parseKeziaExport(rows) {
         eans: [],
         department: text(r[col.RAYON]) || null,
         family: text(r[col.FAMILLE]) || null,
+        subFamily: text(r[col.SS_FAMILLE]) || null,
+        brand: text(r[col.FABRICANT]) || null,
+        colour: text(r[col.COULEUR]) || null,
+        dimension: text(r[col.TAILLE]) || null,
+        reorderQty: num(r[col.QTE_APPRO]) || null,
         salePrice: cents(r[col.PRIX_TTC]),
         vatRateBp: Math.round(num(r[col.TAUX_TVA_VENTE]) * 100),
         pmpa: cents(r[col.PMPA]) || null,
@@ -150,6 +155,13 @@ export function mergeKeziaArticles(parsed, { articles = [], suppliers = [] }, { 
       ean: k.eans[0] || prev?.ean || null,
       codes: codes.filter((c, i) => codes.findIndex((x) => x.type === c.type && x.value === c.value) === i),
       department: k.department,
+      // Cases rarement remplies dans Kezia : une case vide n'efface pas ce qui a été saisi dans Nexus.
+      family: k.family ?? prev?.family ?? null,
+      subFamily: k.subFamily ?? prev?.subFamily ?? null,
+      brand: k.brand ?? prev?.brand ?? null,
+      colour: k.colour ?? prev?.colour ?? null,
+      dimension: k.dimension ?? prev?.dimension ?? null,
+      reorderQty: k.reorderQty ?? prev?.reorderQty ?? null,
       vatRateBp: k.vatRateBp || 2000,
       salePrice: k.salePrice,
       pmpa: k.pmpa,
@@ -191,6 +203,11 @@ export function toKeziaRows(articles, suppliers, { updatePmpa = false } = {}) {
         EAN: a.ean || '',
         DEF: a.label,
         RAYON: a.department || '',
+        FAMILLE: a.family || '',
+        SS_FAMILLE: a.subFamily || '',
+        FABRICANT: a.brand || base.FABRICANT || '',
+        COULEUR: a.colour || '',
+        TAILLE: a.dimension || '',
         PRIX_TTC: price(a.salePrice),
         TAUX_TVA_VENTE: (a.vatRateBp ?? 2000) / 100,
         PU_TARIF_FOU: price(link?.netPrice),
@@ -198,6 +215,7 @@ export function toKeziaRows(articles, suppliers, { updatePmpa = false } = {}) {
         GES_STOCK: a.stockTracked ? 1 : 0,
         QTE_MINI: a.stockMin || 0,
         QTE_MAXI: a.stockMax || 0,
+        QTE_APPRO: a.reorderQty || 0,
       };
       if (updatePmpa && a.purchasePrice) v.PMPA = price(a.purchasePrice);
       else if (!('PMPA' in base)) v.PMPA = price(a.pmpa);

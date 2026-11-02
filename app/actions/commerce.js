@@ -4,23 +4,24 @@
  * les fichiers du module ont leurs propres écouteurs (data-form et data-action « commerce-… »).
  */
 
-import { applyPricelist, articleFromLine, eanIndex, withCode } from '../../core/commerce/articles.js?v=a619ec1';
-import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=a619ec1';
-import { eanCandidates } from '../../core/commerce/ean.js?v=a619ec1';
-import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=a619ec1';
-import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=a619ec1';
-import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=a619ec1';
-import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=a619ec1';
-import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=a619ec1';
-import { buildSnapshot, parseSnapshot } from '../../core/commerce/snapshot.js?v=a619ec1';
-import { parseEuros } from '../../core/money.js?v=a619ec1';
-import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=a619ec1';
-import { downloadJson, downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=a619ec1';
-import { openScanner } from '../commerce/scanner.js?v=a619ec1';
-import { render } from '../render.js?v=a619ec1';
-import { newId, today, ui, ws } from '../state.js?v=a619ec1';
-import { save, toast } from '../store.js?v=a619ec1';
-import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=a619ec1';
+import { applyPricelist, articleFromLine, eanIndex, saveArticle, withCode } from '../../core/commerce/articles.js?v=3bfbbd4';
+import { addTier, removeSupplierLink, removeTier, saveSupplierLink } from '../../core/commerce/tiers.js?v=3bfbbd4';
+import { makePrimary, mergeSupplierLinks, misfiledArticles } from '../../core/commerce/consistency.js?v=3bfbbd4';
+import { eanCandidates } from '../../core/commerce/ean.js?v=3bfbbd4';
+import { isKeziaExport, mergeKeziaArticles, parseKeziaExport, toKeziaRows } from '../../core/commerce/kezia.js?v=3bfbbd4';
+import { matchLegacy, parseLegacyRows } from '../../core/commerce/legacy.js?v=3bfbbd4';
+import { currentProfile, pricelistsFromImport, saveProfile, saveSupplier } from '../../core/commerce/pricelists.js?v=3bfbbd4';
+import { applyProfile, detectProfile, fold, profileSignature, validateProfile } from '../../core/commerce/sheet.js?v=3bfbbd4';
+import { priceProposal, stockMove } from '../../core/commerce/stock.js?v=3bfbbd4';
+import { buildSnapshot, parseSnapshot } from '../../core/commerce/snapshot.js?v=3bfbbd4';
+import { parseEuros } from '../../core/money.js?v=3bfbbd4';
+import { canDecide, commerce, decideProposal, loadCommerce, persist } from '../commerce/data.js?v=3bfbbd4';
+import { downloadJson, downloadXls, readWorkbook, sha256Hex } from '../commerce/files.js?v=3bfbbd4';
+import { openScanner } from '../commerce/scanner.js?v=3bfbbd4';
+import { render } from '../render.js?v=3bfbbd4';
+import { newId, today, ui, ws } from '../state.js?v=3bfbbd4';
+import { save, toast } from '../store.js?v=3bfbbd4';
+import { commerceUi, findInPricelists, searchArticles } from '../views/articles.js?v=3bfbbd4';
 
 const fail = (err) => toast(err?.message || String(err), true);
 
@@ -130,14 +131,17 @@ async function wizardFile(f, fd) {
   render();
 }
 
-function wizardColumns(f) {
+function wizardColumns(f, fd) {
   const w = commerceUi().wizard;
   const num = (v) => (v === '' || v === undefined ? undefined : Number(v));
   const columns = {};
-  for (const [k, v] of Object.entries(f)) if (!/^(designation\d|priceBasis|previousDate|join\w+)$/.test(k) && num(v) !== undefined) columns[k] = num(v);
+  for (const [k, v] of Object.entries(f)) if (!/^(designation\d|priceBasis|previousDate|join\w+|tier\d+)$/.test(k) && num(v) !== undefined) columns[k] = num(v);
   const des = [f.designation0, f.designation1, f.designation2].map(num).filter((v) => v !== undefined);
   if (des.length) columns.designation = des;
   const profile = { sheet: w.profile.sheet, firstRow: w.profile.firstRow, columns, priceBasis: f.priceBasis === 'unit' ? 'unit' : 'piece' };
+  // Prix par quantité détectés : gardés sauf case décochée.
+  const tiers = (w.profile.tiers || []).filter((t) => fd.has(`tier${t.col}`));
+  if (tiers.length) profile.tiers = tiers;
   if (f.joinSheet) {
     const prev = w.profile.join?.sheet === f.joinSheet ? w.profile.join : detectProfile(w.workbook, f.joinSheet);
     const j =
@@ -287,18 +291,8 @@ export const actionsTable = {
     const found = findInPricelists(id);
     const supplier = found && commerce.suppliers.find((s) => s.id === found.supplierId);
     if (!supplier) return;
-    const a = { ...articleFromLine(found.line, supplier, { newId, rounding: 'psy' }), suppliers: [] };
-    a.suppliers = [
-      {
-        supplierId: supplier.id,
-        ref: found.line.ref || null,
-        netPrice: found.line.netPrice ?? null,
-        grossPrice: found.line.grossPrice ?? null,
-        packSize: found.line.packSize ?? null,
-        rank: 0,
-        pricelistId: found.pricelistId,
-      },
-    ];
+    const a = articleFromLine(found.line, supplier, { newId, rounding: 'psy' });
+    a.suppliers[0].pricelistId = found.pricelistId;
     commerce.articles.push(a);
     commerceUi().scanMiss = null;
     location.hash = `#/articles/${a.id}`;
@@ -324,6 +318,19 @@ export const actionsTable = {
       { articles: changed },
       `${changed.length} article${changed.length > 1 ? 's' : ''} rattaché${changed.length > 1 ? 's' : ''} à ce fournisseur, prix d’achat de la grille retenu.`,
     );
+  },
+  'commerce-link-primary': ({ id, index }) => {
+    const a = commerce.articles.find((x) => x.id === id);
+    if (a) return commitArticle(makePrimary(a, index), 'Fournisseur principal changé : son prix devient le prix d’achat de référence.');
+  },
+  'commerce-link-remove': ({ id, index }) => {
+    const a = commerce.articles.find((x) => x.id === id);
+    if (a && confirm('Retirer ce fournisseur de l’article ?')) return commitArticle(removeSupplierLink(a, index), 'Fournisseur retiré de l’article.');
+  },
+  'commerce-tier-remove': ({ id, index }) => {
+    const a = commerce.articles.find((x) => x.id === id);
+    const [supplierId, i] = String(index).split('|');
+    if (a) return commitArticle(removeTier(a, supplierId, Number(i)), 'Palier retiré.');
   },
   'commerce-import-for': ({ id }) => {
     commerceUi().wizard = { supplierId: id, step: 1 };
@@ -437,6 +444,44 @@ const SUBMITS = {
       fail(err);
     }
   },
+  'commerce-link': (f, fd, form) =>
+    editArticle(form, (a) =>
+      saveSupplierLink(a, {
+        supplierId: f.supplierId,
+        ref: f.ref || undefined,
+        netPrice: f.price ? parseEuros(f.price) : undefined,
+        packSize: quantity(f.packSize),
+        palletSize: quantity(f.palletSize),
+      }),
+    ),
+  'commerce-tier': (f, fd, form) =>
+    editArticle(form, (a) => addTier(a, f.supplierId, { qty: quantity(f.qty), per: f.per, netPrice: parseEuros(f.price) }), 'Prix par quantité ajouté.'),
+  'commerce-qty': (f, fd, form) => {
+    const q = quantity(f.qty);
+    const st = commerceUi();
+    st.qtyFor = { ...(st.qtyFor || {}), [form.dataset.id]: q > 0 ? q : null };
+    render();
+  },
+  'commerce-class': (f, fd, form) =>
+    editArticle(
+      form,
+      (a) => {
+        const [next] = saveArticle(
+          [a],
+          {
+            ...a,
+            ...['department', 'family', 'subFamily', 'brand', 'unit', 'colour', 'dimension'].reduce((o, k) => ({ ...o, [k]: f[k] ?? '' }), {}),
+            size: quantity(f.size),
+            stockMin: quantity(f.stockMin),
+            stockMax: quantity(f.stockMax),
+            reorderQty: quantity(f.reorderQty),
+          },
+          { newId },
+        );
+        return next;
+      },
+      'Classement et seuils enregistrés.',
+    ),
   'commerce-kezia-export': async (f, fd) => {
     const list = fd.has('onlyLinked') ? commerce.articles.filter((a) => (a.codes || []).some((c) => c.type === 'caisse')) : commerce.articles;
     const rows = toKeziaRows(list, commerce.suppliers, { updatePmpa: fd.has('updatePmpa') });
@@ -454,6 +499,25 @@ const SUBMITS = {
   },
   'commerce-wiz-columns': wizardColumns,
 };
+
+/** Nombre saisi (« 2,5 ») ; null si la case est vide, NaN si illisible (refusé par le contrôle). */
+const quantity = (v) => (v === undefined || String(v).trim() === '' ? null : Number(String(v).replace(/\s/g, '').replace(',', '.')));
+
+async function commitArticle(next, message) {
+  commerce.articles = commerce.articles.map((x) => (x.id === next.id ? next : x));
+  await commit({ articles: [next] }, message);
+}
+
+/** Modifie l'article du formulaire ; une saisie refusée laisse l'article tel quel. */
+async function editArticle(form, change, message = 'Article enregistré.') {
+  const a = commerce.articles.find((x) => x.id === form.dataset.id);
+  if (!a) return;
+  try {
+    await commitArticle(change(a), message);
+  } catch (err) {
+    fail(err);
+  }
+}
 
 async function addMove(input) {
   try {

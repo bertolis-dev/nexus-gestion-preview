@@ -4,11 +4,11 @@
  * désignent un autre produit dans la grille du fournisseur.
  */
 
-import { duplicateArticles, labelMismatches } from '../../core/commerce/consistency.js?v=a619ec1';
-import { commerce } from '../commerce/data.js?v=a619ec1';
-import { html } from '../html.js?v=a619ec1';
-import { eur } from '../state.js?v=a619ec1';
-import { badge } from '../ui/common.js?v=a619ec1';
+import { duplicateArticles, labelMismatches } from '../../core/commerce/consistency.js?v=3bfbbd4';
+import { commerce } from '../commerce/data.js?v=3bfbbd4';
+import { html } from '../html.js?v=3bfbbd4';
+import { eur } from '../state.js?v=3bfbbd4';
+import { badge } from '../ui/common.js?v=3bfbbd4';
 
 const codeOf = (a, type) => (a.codes || []).find((c) => c.type === type)?.value || '';
 const raw = (a, k) => (a.kezia?.rawLines || []).map((r) => r[k]).find((v) => v !== undefined && v !== null && v !== '') ?? '';

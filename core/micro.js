@@ -5,7 +5,7 @@
  * mise en service : la réforme de la franchise en base a été plusieurs fois modifiée en 2025.
  */
 
-import { divRound, sum } from './money.js?v=a619ec1';
+import { divRound, sum } from './money.js?v=3bfbbd4';
 
 export const THRESHOLDS_2026 = {
   // Franchise en base de TVA (CGI art. 293 B) — seuil de base / seuil majoré

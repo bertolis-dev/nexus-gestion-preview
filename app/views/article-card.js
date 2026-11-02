@@ -6,14 +6,15 @@
  *    historique, et proposition d'un nouveau prix (validée par le dirigeant).
  */
 
-import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=a619ec1';
-import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=a619ec1';
-import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=a619ec1';
-import { canDecide, canManage, commerce } from '../commerce/data.js?v=a619ec1';
-import { field, html, opt, raw } from '../html.js?v=a619ec1';
-import { eur, frDate, today } from '../state.js?v=a619ec1';
-import { badge, icon } from '../ui/common.js?v=a619ec1';
-import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=a619ec1';
+import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=3bfbbd4';
+import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=3bfbbd4';
+import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=3bfbbd4';
+import { canDecide, canManage, commerce } from '../commerce/data.js?v=3bfbbd4';
+import { field, html, opt, raw } from '../html.js?v=3bfbbd4';
+import { eur, frDate, today } from '../state.js?v=3bfbbd4';
+import { badge, icon } from '../ui/common.js?v=3bfbbd4';
+import { classBlock, orderHint, suppliersBlock } from './article-suppliers.js?v=3bfbbd4';
+import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=3bfbbd4';
 
 const euros = (c) => (c === null || c === undefined ? '' : (c / 100).toFixed(2).replace('.', ','));
 
@@ -31,6 +32,7 @@ function stockBlock(a) {
         >${s.lastCount ? `compté le ${frDate(s.lastCount)}` : 'jamais compté'}${a.stockMin !== null && a.stockMin !== undefined ? ` · minimum ${fmtQty(a.stockMin)}` : ''}</span
       >
     </div>
+    ${orderHint(a)}
     <form data-form="commerce-count" data-id="${a.id}" style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
       ${field('J’ai compté', html`<input class="input" name="qty" inputmode="decimal" autocomplete="off" required style="width:120px" />`)}
       <button class="btn btn-primary" type="submit">Enregistrer le comptage</button>
@@ -106,9 +108,7 @@ function proposalBlock(a, expert) {
 
 function purchaseBlock(a) {
   const m = margin(a);
-  const links = [...(a.suppliers || [])].sort((x, y) => (x.rank ?? 0) - (y.rank ?? 0));
   const rise = a.purchasePrice && a.pmpa ? Math.round(((a.purchasePrice - a.pmpa) * 10000) / a.pmpa) : null;
-  const pl = (id) => commerce.pricelists.find((p) => p.id === id);
   return html`<div class="card" style="display:flex;flex-direction:column;gap:10px">
     <h2>Achat</h2>
     <dl class="article-facts">
@@ -121,32 +121,7 @@ function purchaseBlock(a) {
         ${rise === null ? '—' : html`<span class="${rise > 50 ? 'text-danger' : rise < -50 ? 'text-success' : ''}">${rise > 0 ? '+' : ''}${fmtBp(rise)}</span>`}
       </dd>
     </dl>
-    <div class="table-scroll">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Fournisseur</th>
-            <th>Référence</th>
-            <th class="num">Achat net HT</th>
-            <th class="num">Prix brut</th>
-            <th>Grille du</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${links.map((s) => {
-            const p = pl(s.pricelistId);
-            return html`<tr>
-              <td>${supplierName(s.supplierId)}${(s.rank ?? 0) === 0 && links.length > 1 ? html` ${badge('principal', 'muted')}` : ''}</td>
-              <td>${s.ref || '—'}</td>
-              <td class="num">${s.netPrice ? eur(s.netPrice) : '—'}</td>
-              <td class="num">${s.grossPrice ? eur(s.grossPrice) : '—'}</td>
-              <td>${p ? frDate(p.effectiveDate) : 'saisi dans la caisse'}</td>
-            </tr>`;
-          })}
-        </tbody>
-      </table>
-    </div>
-    ${timeline(a)}
+    ${suppliersBlock(a)} ${timeline(a)}
     <p style="margin:0">Coefficient ${fmtCoef(m.coefBp)} · taux de marque ${fmtBp(m.markBp)}</p>
   </div>`;
 }
@@ -227,7 +202,7 @@ export function articleCard(a) {
     </div>
     ${alerts.length ? html`<p>${alerts.map((x) => badge(x.text, { erreur: 'danger', alerte: 'warning', info: 'muted' }[x.level]))}</p>` : ''}
     <div class="article-grid">
-      ${saleBlock(a, expert)}${stockBlock(a)}${expert ? purchaseBlock(a) : ''}${proposalBlock(a, expert)}
+      ${saleBlock(a, expert)}${stockBlock(a)}${expert ? purchaseBlock(a) : ''}${proposalBlock(a, expert)}${expert ? classBlock(a) : ''}
       ${
         expert
           ? html`<div class="card">

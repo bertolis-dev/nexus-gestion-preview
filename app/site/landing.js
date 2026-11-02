@@ -2,16 +2,16 @@
  * Site public : page d’accueil, pages Fonctionnalités, agrandissement des captures.
  */
 
-import { html, raw } from '../html.js?v=a619ec1';
-import { ICONS } from '../icons.js?v=a619ec1';
-import { $ } from '../render.js?v=a619ec1';
-import { CONTACT_EMAIL, ui } from '../state.js?v=a619ec1';
-import { brand, icon } from '../ui/common.js?v=a619ec1';
+import { html, raw } from '../html.js?v=3bfbbd4';
+import { ICONS } from '../icons.js?v=3bfbbd4';
+import { $ } from '../render.js?v=3bfbbd4';
+import { CONTACT_EMAIL, ui } from '../state.js?v=3bfbbd4';
+import { brand, icon } from '../ui/common.js?v=3bfbbd4';
 
 // Pages « Fonctionnalités » du site public (50 Ko) : chargées seulement quand le site public s'affiche.
 export let features = null;
 
-export const loadFeatures = async () => (features ??= await import('../features.js?v=a619ec1'));
+export const loadFeatures = async () => (features ??= await import('../features.js?v=3bfbbd4'));
 
 export const featureBySlug = (slug) => features?.featureBySlug(slug);
 

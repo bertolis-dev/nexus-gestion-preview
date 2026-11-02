@@ -2,11 +2,11 @@
  * Écran « vat ».
  */
 
-import { toCsv } from '../../core/exports.js?v=a619ec1';
-import { justificationRows } from '../../core/vatreturn.js?v=a619ec1';
-import { render } from '../render.js?v=a619ec1';
-import { eur, frDate, today, ui, ws } from '../state.js?v=a619ec1';
-import { download, save, toast } from '../store.js?v=a619ec1';
+import { toCsv } from '../../core/exports.js?v=3bfbbd4';
+import { justificationRows } from '../../core/vatreturn.js?v=3bfbbd4';
+import { render } from '../render.js?v=3bfbbd4';
+import { eur, frDate, today, ui, ws } from '../state.js?v=3bfbbd4';
+import { download, save, toast } from '../store.js?v=3bfbbd4';
 
 /** Actions « vat » : data-action → fonction. */
 export const actionsTable = {

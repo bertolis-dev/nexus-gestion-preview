@@ -7,8 +7,8 @@
  *  - code-barres de la caisse qui désigne un autre produit dans la grille (contenance, teinte, nom).
  */
 
-import { sizesOf } from './legacy.js?v=a619ec1';
-import { fold } from './sheet.js?v=a619ec1';
+import { sizesOf } from './legacy.js?v=3bfbbd4';
+import { fold } from './sheet.js?v=3bfbbd4';
 
 const COLOURS = new Set(
   'blanc noir gris rouge vert bleu jaune miel incolore cuivre fonce clair moyen dore rustique teck acajou merisier ivoire beige creme anthracite naturel'.split(

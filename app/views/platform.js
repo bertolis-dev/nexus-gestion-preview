@@ -4,11 +4,11 @@
  * client : pour l'aider, il faut un accès support qu'il accorde lui-même (support_grants).
  */
 
-import { MODULES } from '../../core/platform.js?v=a619ec1';
-import { html, raw } from '../html.js?v=a619ec1';
-import { enabledModules, isOperator, platformStructures } from '../platform.js?v=a619ec1';
-import { frDate, ui, ws } from '../state.js?v=a619ec1';
-import { badge, viewHeader } from '../ui/common.js?v=a619ec1';
+import { MODULES } from '../../core/platform.js?v=3bfbbd4';
+import { html, raw } from '../html.js?v=3bfbbd4';
+import { enabledModules, isOperator, platformStructures } from '../platform.js?v=3bfbbd4';
+import { frDate, ui, ws } from '../state.js?v=3bfbbd4';
+import { badge, viewHeader } from '../ui/common.js?v=3bfbbd4';
 
 const OPTIONAL = MODULES.filter((m) => !m.soon && !m.alwaysOn);
 const days = (iso) => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86400000) : null);
@@ -36,7 +36,7 @@ function load(st) {
     .catch((err) => Object.assign(st, { rows: [], error: err.message }))
     .finally(() => {
       st.loading = null;
-      import('../render.js?v=a619ec1').then((m) => m.render());
+      import('../render.js?v=3bfbbd4').then((m) => m.render());
     });
 }
 

@@ -11,7 +11,7 @@
  *   friendly(error) → message ; onStatus(status) ; onResult(op, result).
  */
 
-import { planSync, isDivergence } from './sync.js?v=a619ec1';
+import { planSync, isDivergence } from './sync.js?v=3bfbbd4';
 
 const DIVERGENCE_MESSAGE = 'Des modifications ont été enregistrées ailleurs (autre appareil ou autre onglet) : rechargez les données depuis la base.';
 const directLock = (_name, fn) => fn();
