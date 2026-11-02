@@ -6,14 +6,14 @@
  *    historique, et proposition d'un nouveau prix (validée par le dirigeant).
  */
 
-import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=17f2ba9';
-import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=17f2ba9';
-import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=17f2ba9';
-import { canDecide, canManage, commerce } from '../commerce/data.js?v=17f2ba9';
-import { field, html, opt, raw } from '../html.js?v=17f2ba9';
-import { eur, frDate, today } from '../state.js?v=17f2ba9';
-import { badge, icon } from '../ui/common.js?v=17f2ba9';
-import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=17f2ba9';
+import { CODE_TYPES, ROUNDINGS, articleAlerts, margin, proposeSalePrice, purchaseOf } from '../../core/commerce/articles.js?v=a619ec1';
+import { lineKey, priceTimeline } from '../../core/commerce/pricelists.js?v=a619ec1';
+import { MOVE_KINDS, stockOf } from '../../core/commerce/stock.js?v=a619ec1';
+import { canDecide, canManage, commerce } from '../commerce/data.js?v=a619ec1';
+import { field, html, opt, raw } from '../html.js?v=a619ec1';
+import { eur, frDate, today } from '../state.js?v=a619ec1';
+import { badge, icon } from '../ui/common.js?v=a619ec1';
+import { commerceUi, fmtBp, fmtCoef, fmtQty, supplierName } from './articles.js?v=a619ec1';
 
 const euros = (c) => (c === null || c === undefined ? '' : (c / 100).toFixed(2).replace('.', ','));
 

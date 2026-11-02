@@ -2,18 +2,18 @@
  * Écran « closing ».
  */
 
-import { INVENTORY_TYPES, allocationProposal, balanceSheet, closingChecklist, fiscalYearLabel, incomeStatement } from '../../core/closing.js?v=17f2ba9';
-import { addDays } from '../../core/dates.js?v=17f2ba9';
-import { VAT_RATES_BP } from '../../core/invoices.js?v=17f2ba9';
-import { parseEuros } from '../../core/money.js?v=17f2ba9';
-import * as cloud from '../cloud.js?v=17f2ba9';
-import { field, html, opt, raw } from '../html.js?v=17f2ba9';
-import { ICONS } from '../icons.js?v=17f2ba9';
-import { render } from '../render.js?v=17f2ba9';
-import { cloudState, eur, frDate, pct, setWs, today, ui, ws } from '../state.js?v=17f2ba9';
-import { save, toast } from '../store.js?v=17f2ba9';
-import { openStructure } from '../sync-ui.js?v=17f2ba9';
-import { badge, icon, term, viewHeader } from '../ui/common.js?v=17f2ba9';
+import { INVENTORY_TYPES, allocationProposal, balanceSheet, closingChecklist, fiscalYearLabel, incomeStatement } from '../../core/closing.js?v=a619ec1';
+import { addDays } from '../../core/dates.js?v=a619ec1';
+import { VAT_RATES_BP } from '../../core/invoices.js?v=a619ec1';
+import { parseEuros } from '../../core/money.js?v=a619ec1';
+import * as cloud from '../cloud.js?v=a619ec1';
+import { field, html, opt, raw } from '../html.js?v=a619ec1';
+import { ICONS } from '../icons.js?v=a619ec1';
+import { render } from '../render.js?v=a619ec1';
+import { cloudState, eur, frDate, pct, setWs, today, ui, ws } from '../state.js?v=a619ec1';
+import { save, toast } from '../store.js?v=a619ec1';
+import { openStructure } from '../sync-ui.js?v=a619ec1';
+import { badge, icon, term, viewHeader } from '../ui/common.js?v=a619ec1';
 
 // ------------------------------------------------------------------ clôture de l'exercice (lot 3)
 

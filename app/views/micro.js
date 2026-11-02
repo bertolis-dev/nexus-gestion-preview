@@ -2,12 +2,12 @@
  * Écran « micro ».
  */
 
-import { ESTIMATE_MISSING_LABELS, incomeDeclaration, receiptsBook } from '../../core/micro.js?v=17f2ba9';
-import { formatDecimalComma } from '../../core/money.js?v=17f2ba9';
-import { field, html, opt } from '../html.js?v=17f2ba9';
-import { isMicro } from '../render.js?v=17f2ba9';
-import { eur, frDate, today, ui, ws } from '../state.js?v=17f2ba9';
-import { badge, icon, viewHeader } from '../ui/common.js?v=17f2ba9';
+import { ESTIMATE_MISSING_LABELS, incomeDeclaration, receiptsBook } from '../../core/micro.js?v=a619ec1';
+import { formatDecimalComma } from '../../core/money.js?v=a619ec1';
+import { field, html, opt } from '../html.js?v=a619ec1';
+import { isMicro } from '../render.js?v=a619ec1';
+import { eur, frDate, today, ui, ws } from '../state.js?v=a619ec1';
+import { badge, icon, viewHeader } from '../ui/common.js?v=a619ec1';
 
 // ------------------------------------------------------------------ micro-entrepreneur
 

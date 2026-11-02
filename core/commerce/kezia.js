@@ -8,9 +8,9 @@
  * gère pas ; seuls les champs tenus par Nexus sont remplacés.
  */
 
-import { eanCandidates, eanDigits, normalizeEan, resolveTruncated } from './ean.js?v=17f2ba9';
-import { fold } from './sheet.js?v=17f2ba9';
-import { codeOf } from './articles.js?v=17f2ba9';
+import { eanCandidates, eanDigits, normalizeEan, resolveTruncated } from './ean.js?v=a619ec1';
+import { fold } from './sheet.js?v=a619ec1';
+import { codeOf } from './articles.js?v=a619ec1';
 
 export const KEZIA_COLUMNS = [
   'IDART', 'NOM_FOURNISSEUR', 'REFERENCE_FOURNISSEUR', 'EAN', 'DEF', 'RAYON', 'FAMILLE', 'SS_FAMILLE', 'PMPA', 'TYP_FRAIS', 'FRAIS', 'PRIX_TTC',

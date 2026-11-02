@@ -4,10 +4,10 @@
  * prix de vente TTC (celui de l'étiquette et de la caisse), prix d'achat HT.
  */
 
-import { divRound } from '../money.js?v=17f2ba9';
-import { eanCandidates, normalizeEan } from './ean.js?v=17f2ba9';
-import { fold } from './sheet.js?v=17f2ba9';
-import { lineKey } from './pricelists.js?v=17f2ba9';
+import { divRound } from '../money.js?v=a619ec1';
+import { eanCandidates, normalizeEan } from './ean.js?v=a619ec1';
+import { fold } from './sheet.js?v=a619ec1';
+import { lineKey } from './pricelists.js?v=a619ec1';
 
 export class ArticleError extends Error {}
 

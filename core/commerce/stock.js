@@ -5,9 +5,9 @@
  * celui constaté, utile pour l'inventaire, la valorisation et les alertes de réapprovisionnement.
  */
 
-import { isCalendarDate } from '../dates.js?v=17f2ba9';
-import { divRound } from '../money.js?v=17f2ba9';
-import { purchaseOf } from './articles.js?v=17f2ba9';
+import { isCalendarDate } from '../dates.js?v=a619ec1';
+import { divRound } from '../money.js?v=a619ec1';
+import { purchaseOf } from './articles.js?v=a619ec1';
 
 export class StockError extends Error {}
 

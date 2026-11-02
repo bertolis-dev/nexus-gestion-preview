@@ -4,10 +4,10 @@
  * Méthodes installées sur Workspace.prototype (voir core/workspace.js).
  */
 
-import { kmBeforeTrip, tripAllowance } from '../mileage.js?v=17f2ba9';
-import { isBilled, timeEntry, timeInvoiceLines } from '../timesheet.js?v=17f2ba9';
-import { stockMove } from '../stock.js?v=17f2ba9';
-import { addDays } from '../dates.js?v=17f2ba9';
+import { kmBeforeTrip, tripAllowance } from '../mileage.js?v=a619ec1';
+import { isBilled, timeEntry, timeInvoiceLines } from '../timesheet.js?v=a619ec1';
+import { stockMove } from '../stock.js?v=a619ec1';
+import { addDays } from '../dates.js?v=a619ec1';
 
 /** Score minimal et écart avec la deuxième proposition pour rapprocher sans demander. */
 const SURE_SCORE = 90;

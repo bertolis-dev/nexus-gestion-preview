@@ -4,14 +4,14 @@
  * de grille), écriture du fichier à réimporter dans la caisse. SheetJS n'est chargé qu'ici.
  */
 
-import { pdfToRows } from '../../core/commerce/pdf-table.js?v=17f2ba9';
+import { pdfToRows } from '../../core/commerce/pdf-table.js?v=a619ec1';
 
 let xlsx = null;
-const lib = async () => (xlsx ||= await import('../vendor/xlsx.js?v=17f2ba9'));
+const lib = async () => (xlsx ||= await import('../vendor/xlsx.js?v=a619ec1'));
 
 /** Grille en PDF : texte des pages, mis en tableau par core/commerce/pdf-table.js. pdf.js n'est chargé qu'ici. */
 async function readPdf(file) {
-  const pdfjs = await import('../vendor/pdfjs/pdf.min.js?v=17f2ba9');
+  const pdfjs = await import('../vendor/pdfjs/pdf.min.js?v=a619ec1');
   pdfjs.GlobalWorkerOptions.workerSrc = new URL('../vendor/pdfjs/pdf.worker.min.js', import.meta.url).href;
   const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
   const pages = [];

@@ -3,12 +3,12 @@
  * factures et devis, habitudes de paiement), création, et import depuis un tableur.
  */
 
-import { clientDocuments, clientSummary } from '../../core/clients.js?v=17f2ba9';
-import { DOC_TITLES } from './sales.js?v=17f2ba9';
-import { field, html, opt } from '../html.js?v=17f2ba9';
-import { eur, frDate, today, ui, ws } from '../state.js?v=17f2ba9';
-import { badge, viewHeader } from '../ui/common.js?v=17f2ba9';
-import { clientPortalCard } from './pilotage.js?v=17f2ba9';
+import { clientDocuments, clientSummary } from '../../core/clients.js?v=a619ec1';
+import { DOC_TITLES } from './sales.js?v=a619ec1';
+import { field, html, opt } from '../html.js?v=a619ec1';
+import { eur, frDate, today, ui, ws } from '../state.js?v=a619ec1';
+import { badge, viewHeader } from '../ui/common.js?v=a619ec1';
+import { clientPortalCard } from './pilotage.js?v=a619ec1';
 
 const days = (n) => (n === null ? '—' : `${n} jour${n > 1 ? 's' : ''}`);
 
