@@ -7,7 +7,7 @@
  * Entrée : [{ items: [{ str, x, y, w }] }] par page (coordonnées PDF : y croît vers le haut).
  */
 
-import { eanDigits, isValidEan } from './ean.js?v=d415f7a';
+import { eanDigits, isValidEan } from './ean.js?v=269c883';
 
 const LINE_TOLERANCE = 2.5; // points : deux morceaux à moins de cette hauteur sont sur la même ligne
 const COLUMN_GAP = 6; // points : écart minimal entre deux débuts de colonnes

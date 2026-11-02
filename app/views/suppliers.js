@@ -4,17 +4,18 @@
  * rapprochement avec l'ancien logiciel). Réservé au dirigeant et à l'expert-comptable.
  */
 
-import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=d415f7a';
-import { LEVELS } from '../../core/commerce/legacy.js?v=d415f7a';
-import { comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=d415f7a';
-import { fold } from '../../core/commerce/sheet.js?v=d415f7a';
-import { commerce } from '../commerce/data.js?v=d415f7a';
-import { field, html, opt, raw } from '../html.js?v=d415f7a';
-import { eur, frDate, ui } from '../state.js?v=d415f7a';
-import { badge, icon } from '../ui/common.js?v=d415f7a';
-import { commerceUi, fmtBp, supplierName } from './articles.js?v=d415f7a';
+import { misfiledArticles, similarSuppliers } from '../../core/commerce/consistency.js?v=269c883';
+import { LEVELS } from '../../core/commerce/legacy.js?v=269c883';
+import { SUPPLIER_ROLES, comparePricelists, currentProfile, supplierPricelists } from '../../core/commerce/pricelists.js?v=269c883';
+import { fold } from '../../core/commerce/sheet.js?v=269c883';
+import { commerce } from '../commerce/data.js?v=269c883';
+import { field, html, opt, raw } from '../html.js?v=269c883';
+import { eur, frDate, ui } from '../state.js?v=269c883';
+import { badge, icon } from '../ui/common.js?v=269c883';
+import { commerceUi, fmtBp, supplierName } from './articles.js?v=269c883';
 
 const articlesOf = (id) => commerce.articles.filter((a) => (a.suppliers || []).some((s) => s.supplierId === id));
+const siteLabel = (u) => u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
 const isPrimary = (a, id) => [...(a.suppliers || [])].sort((x, y) => (x.rank ?? 0) - (y.rank ?? 0))[0]?.supplierId === id;
 
 export function suppliersList() {
@@ -51,6 +52,7 @@ export function suppliersList() {
             <tr>
               <th>Fournisseur</th>
               <th>Marques</th>
+              <th>Coordonnées</th>
               <th class="num">Articles</th>
               <th>Dernière grille</th>
               <th class="num">Versions</th>
@@ -65,11 +67,15 @@ export function suppliersList() {
                 const misfiled = misfiledArticles(commerce.articles, s.id).length;
                 return html`<tr class="clickable-row" data-href="#/articles/fournisseur-${s.id}">
                   <td data-label="Fournisseur"><strong>${s.name}</strong></td>
-                  <td data-label="Marques">${(s.brands || []).slice(0, 4).join(', ')}</td>
+                  <td data-label="Marques">${(s.brands || []).slice(0, 4).join(', ')}${s.group ? html`<div class="text-muted">${s.group}</div>` : ''}</td>
+                  <td data-label="Coordonnées">${[s.phone, s.website ? siteLabel(s.website) : null].filter(Boolean).join(' · ') || '—'}</td>
                   <td class="num" data-label="Articles">${articlesOf(s.id).length}</td>
                   <td data-label="Dernière grille">${pls.length ? frDate(pls.at(-1).effectiveDate) : '—'}</td>
                   <td class="num" data-label="Versions">${pls.length}</td>
-                  <td data-label="À voir">${misfiled ? badge(`${misfiled} rangé${misfiled > 1 ? 's' : ''} sous un autre fournisseur`, 'warning') : ''}</td>
+                  <td data-label="À voir">
+                    ${misfiled ? badge(`${misfiled} rangé${misfiled > 1 ? 's' : ''} sous un autre fournisseur`, 'warning') : ''}
+                    ${!pls.length && articlesOf(s.id).length ? badge('Grille à demander', 'info') : ''}
+                  </td>
                 </tr>`;
               })}
           </tbody>
@@ -226,8 +232,36 @@ export function supplierDetail(s) {
     </div>
     <form class="card" data-form="commerce-supplier" data-id="${s.id}" style="display:flex;flex-direction:column;gap:10px;max-width:720px">
       <h2>Fiche</h2>
-      ${field('Nom', html`<input class="input" name="name" value="${s.name}" required maxlength="120" />`)}
+      <h3 style="margin:4px 0 0">Société</h3>
+      ${field('Nom (comme dans la caisse)', html`<input class="input" name="name" value="${s.name}" required maxlength="120" />`)}
+      ${field('Raison sociale', html`<input class="input" name="legalName" value="${s.legalName || ''}" maxlength="160" />`)}
+      ${field(
+        'Rôle',
+        html`<select class="input" name="role">
+          ${opt('', 'À préciser', !s.role)}${Object.entries(SUPPLIER_ROLES).map(([k, v]) => opt(k, v, s.role === k))}
+        </select>`,
+      )}
+      ${field('Groupe ou réseau', html`<input class="input" name="group" value="${s.group || ''}" maxlength="120" />`, {
+        hint: 'Exemple : marque du groupe PPG, ou vendue par le réseau Espace Revêtements.',
+      })}
       ${field('Marques', html`<input class="input" name="brands" value="${(s.brands || []).join(', ')}" />`, { hint: 'Séparées par des virgules : sert à repérer un même fournisseur sous le nom de sa marque.' })}
+      ${field('SIREN', html`<input class="input" name="siren" value="${s.siren || ''}" inputmode="numeric" maxlength="11" style="width:150px" />`)}
+      ${field(
+        'Site web',
+        html`<input class="input" name="website" value="${s.website || ''}" maxlength="200" />${
+            s.website ? html`<a href="${s.website}" target="_blank" rel="noopener">Ouvrir ${siteLabel(s.website)}</a>` : ''
+          }`,
+      )}
+      <h3 style="margin:4px 0 0">Coordonnées</h3>
+      ${field('Adresse', html`<textarea class="input" name="address" rows="2" maxlength="300">${s.address || ''}</textarea>`)}
+      ${field('Téléphone', html`<input class="input" name="phone" value="${s.phone || ''}" maxlength="40" />`)}
+      ${field('E-mail', html`<input class="input" type="email" name="email" value="${s.email || ''}" maxlength="160" />`)}
+      ${field('E-mail des commandes', html`<input class="input" type="email" name="orderEmail" value="${s.orderEmail || ''}" maxlength="160" />`)}
+      ${field('Commercial ou contact', html`<input class="input" name="contact" value="${s.contact || ''}" maxlength="120" />`)}
+      ${field('N° de compte client', html`<input class="input" name="accountNumber" value="${s.accountNumber || ''}" maxlength="40" style="width:200px" />`, {
+        hint: 'Le numéro du magasin chez ce fournisseur, à rappeler à chaque commande.',
+      })}
+      <h3 style="margin:4px 0 0">Conditions</h3>
       ${field(
         'Prix fournis dans ses grilles',
         html`<select class="input" name="priceType">
@@ -235,10 +269,28 @@ export function supplierDetail(s) {
         </select>`,
       )}
       ${field('Coefficient de vente habituel', html`<input class="input" name="coef" inputmode="decimal" value="${s.defaultCoefBp ? (s.defaultCoefBp / 10000).toFixed(2).replace('.', ',') : ''}" style="width:110px" />`, { hint: 'Exemple : 2,00 (prix de vente HT = 2 × prix d’achat). Sert aux prix proposés et aux nouveautés.' })}
-      ${field('Contact', html`<input class="input" name="contact" value="${s.contact || ''}" maxlength="120" />`)}
-      ${field('E-mail', html`<input class="input" type="email" name="email" value="${s.email || ''}" maxlength="160" />`)}
-      ${field('Téléphone', html`<input class="input" name="phone" value="${s.phone || ''}" maxlength="40" />`)}
+      ${field(
+        'Franco de port (€ HT)',
+        html`<input
+          class="input"
+          name="franco"
+          inputmode="decimal"
+          value="${s.francoCents ? (s.francoCents / 100).toFixed(2).replace('.', ',') : ''}"
+          style="width:130px"
+        />`,
+        {
+          hint: 'Montant de commande à partir duquel la livraison est offerte.',
+        },
+      )}
+      ${field('Délai de livraison (jours)', html`<input class="input" name="leadDays" inputmode="numeric" value="${s.leadDays ?? ''}" style="width:90px" />`)}
       ${field('Notes', html`<textarea class="input" name="notes" rows="3" maxlength="2000">${s.notes || ''}</textarea>`)}
+      ${
+        s.sources?.length
+          ? html`<p class="text-muted" style="margin:0">
+              Coordonnées relevées sur : ${s.sources.map((u, i) => html`${i ? ', ' : ''}<a href="${u}" target="_blank" rel="noopener">${siteLabel(u)}</a>`)}
+            </p>`
+          : ''
+      }
       ${
         profile
           ? html`<p class="text-muted" style="margin:0">

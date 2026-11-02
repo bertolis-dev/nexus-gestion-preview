@@ -2,11 +2,11 @@
  * Écran « bank ».
  */
 
-import { INCOME_CATEGORIES, OUTFLOW_CATEGORIES } from '../../core/workspace.js?v=d415f7a';
-import { $, render } from '../render.js?v=d415f7a';
-import { ui, ws } from '../state.js?v=d415f7a';
-import { dataVersion, save, toast } from '../store.js?v=d415f7a';
-import { suggestionsCache } from '../views/bank.js?v=d415f7a';
+import { INCOME_CATEGORIES, OUTFLOW_CATEGORIES } from '../../core/workspace.js?v=269c883';
+import { $, render } from '../render.js?v=269c883';
+import { ui, ws } from '../state.js?v=269c883';
+import { dataVersion, save, toast } from '../store.js?v=269c883';
+import { suggestionsCache } from '../views/bank.js?v=269c883';
 
 /** Actions « bank » : data-action → fonction. */
 export const actionsTable = {

@@ -4,8 +4,8 @@
  * voir ce qui a changé et à quelle date. La base le garantit aussi (trigger, migration 0035).
  */
 
-import { isCalendarDate } from '../dates.js?v=d415f7a';
-import { fold, validateProfile } from './sheet.js?v=d415f7a';
+import { isCalendarDate } from '../dates.js?v=269c883';
+import { fold, validateProfile } from './sheet.js?v=269c883';
 
 export class PricelistError extends Error {}
 
@@ -19,6 +19,31 @@ const clean = (s, max) =>
 export const lineKey = (l) => l.ean || (l.ref ? `ref:${fold(l.ref)}` : '');
 
 // ------------------------------------------------------------------ fournisseurs
+
+/** Rôle commercial du fournisseur : qui facture, et à quel titre. */
+export const SUPPLIER_ROLES = {
+  fabricant: 'Fabricant',
+  distributeur: 'Distributeur, grossiste',
+  groupement: 'Groupement, centrale d’achat',
+  marque: 'Marque d’un autre fournisseur',
+};
+
+/** Site web : l'adresse saisie avec ou sans « https:// » ; null si ce n'en est pas une. */
+export function normalizeWebsite(s) {
+  const v = clean(s, 200);
+  if (!v) return null;
+  const url = /^https?:\/\//i.test(v) ? v : `https://${v}`;
+  if (!/^https?:\/\/[^\s/.]+\.[^\s]+$/i.test(url)) throw new PricelistError(`Site web illisible : « ${v} ».`);
+  return url;
+}
+
+/** SIREN : 9 chiffres (les espaces sont acceptés à la saisie) ; null si vide. */
+export function normalizeSiren(s) {
+  const v = String(s ?? '').replace(/[\s.]/g, '');
+  if (!v) return null;
+  if (!/^\d{9}$/.test(v)) throw new PricelistError('Le SIREN compte 9 chiffres.');
+  return v;
+}
 
 /**
  * Fiche fournisseur. `profiles` garde chaque version du paramétrage d'import : si le fournisseur
@@ -37,15 +62,30 @@ export function saveSupplier(list = [], input, { newId, now = new Date() } = {})
     ...(prev || {}),
     id: prev?.id || input.id || newId(),
     name,
+    legalName: clean(input.legalName, 160) || null,
+    role: SUPPLIER_ROLES[input.role] ? input.role : null,
+    group: clean(input.group, 120) || null,
+    siren: normalizeSiren(input.siren),
+    website: normalizeWebsite(input.website),
+    address: clean(input.address, 300) || null,
+    accountNumber: clean(input.accountNumber, 40) || null,
     brands: [...new Set((input.brands || []).map((b) => clean(b, 60)).filter(Boolean))],
     contact: clean(input.contact, 120) || null,
     email: clean(input.email, 160) || null,
+    orderEmail: clean(input.orderEmail, 160) || null,
     phone: clean(input.phone, 40) || null,
     priceType: ['net', 'brut', 'inconnu'].includes(input.priceType) ? input.priceType : prev?.priceType || 'inconnu',
     defaultCoefBp: coef,
     francoCents: Number.isSafeInteger(input.francoCents) ? input.francoCents : (prev?.francoCents ?? null),
     leadDays: Number.isInteger(input.leadDays) ? input.leadDays : (prev?.leadDays ?? null),
     notes: clean(input.notes, 2000) || null,
+    // Pages d'où viennent les coordonnées (site officiel, annuaire des entreprises) : gardées telles quelles.
+    sources: Array.isArray(input.sources)
+      ? input.sources
+          .map((u) => clean(u, 300))
+          .filter((u) => /^https?:\/\//i.test(u))
+          .slice(0, 10)
+      : prev?.sources || [],
     profiles: prev?.profiles || [],
     createdAt: prev?.createdAt || now.toISOString(),
   };

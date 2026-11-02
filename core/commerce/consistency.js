@@ -5,7 +5,7 @@
  *    le prix d'achat de la grille n'est alors pas retenu (il ne vaut que pour le fournisseur principal).
  */
 
-import { fold } from './sheet.js?v=d415f7a';
+import { fold } from './sheet.js?v=269c883';
 
 const initials = (name) =>
   fold(name)

@@ -4,9 +4,9 @@
  * non activés dans les réglages de la démonstration.
  */
 
-import { DEFAULT_MODULES, ROUTE_MODULE, allPermissions } from '../core/platform.js?v=d415f7a';
-import { supabaseClient } from './cloud.js?v=d415f7a';
-import { cloudState, ui, ws } from './state.js?v=d415f7a';
+import { DEFAULT_MODULES, ROUTE_MODULE, allPermissions } from '../core/platform.js?v=269c883';
+import { supabaseClient } from './cloud.js?v=269c883';
+import { cloudState, ui, ws } from './state.js?v=269c883';
 
 export const access = { structures: [], permissions: new Set(), modules: new Set(), operator: false, loaded: false };
 

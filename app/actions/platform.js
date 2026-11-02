@@ -3,14 +3,14 @@
  * modules depuis la console BERTOLIS. Formulaires et listes ont leurs propres écouteurs.
  */
 
-import { permissionsFromLevels } from '../../core/platform.js?v=d415f7a';
-import * as cloud from '../cloud.js?v=d415f7a';
-import { deleteRole, inviteMember, isOperator, platformSetModule, removeMember, saveRole, updateMember } from '../platform.js?v=d415f7a';
-import { render } from '../render.js?v=d415f7a';
-import { cloudState, ui, ws } from '../state.js?v=d415f7a';
-import { save, toast } from '../store.js?v=d415f7a';
-import { openStructureAndShow } from '../sync-ui.js?v=d415f7a';
-import { platformData } from '../views/users.js?v=d415f7a';
+import { permissionsFromLevels } from '../../core/platform.js?v=269c883';
+import * as cloud from '../cloud.js?v=269c883';
+import { deleteRole, inviteMember, isOperator, platformSetModule, removeMember, saveRole, updateMember } from '../platform.js?v=269c883';
+import { render } from '../render.js?v=269c883';
+import { cloudState, ui, ws } from '../state.js?v=269c883';
+import { save, toast } from '../store.js?v=269c883';
+import { openStructureAndShow } from '../sync-ui.js?v=269c883';
+import { platformData } from '../views/users.js?v=269c883';
 
 const fail = (err) => toast(cloud.friendly ? cloud.friendly(err) : err.message, true);
 

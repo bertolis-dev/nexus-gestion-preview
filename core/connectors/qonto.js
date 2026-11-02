@@ -7,7 +7,7 @@
  * faux serveur. Activation : création de l'application OAuth Qonto par BERTOLIS (prérequis externe).
  */
 
-import { parisDateOf, addDays } from '../dates.js?v=d415f7a';
+import { parisDateOf, addDays } from '../dates.js?v=269c883';
 
 const cleanLabel = (s) =>
   String(s ?? '')
